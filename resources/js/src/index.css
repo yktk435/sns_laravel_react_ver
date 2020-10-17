@@ -1,0 +1,627 @@
+html {
+  background-color: rgb(20, 29, 38);
+  color: white;
+  padding: 0px;
+}
+
+body{
+  /* background-color: red; */
+}
+/********************/
+
+
+/* 共有 */
+
+
+/********************/
+
+.font {
+  font-size: 15px;
+}
+
+.a-to-block {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.block-to-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.a-to-block2 {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: white;
+  text-decoration: none;
+}
+
+.blue-hover:hover{
+  -webkit-filter: invert(91%) sepia(99%) saturate(10000%) hue-rotate(203deg) brightness(169%) contrast(135%);
+}
+
+/********************/
+
+
+/* 共有ここまで */
+
+
+/********************/
+
+.border {
+  border: 1px solid rgb(48, 60, 67);
+}
+
+.parent {
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.left {
+  /* background-color: rgb(0, 15, 219); */
+  background-color: rgb(20, 29, 38);
+  width: 100px;
+  height: 100px;
+  float: left;
+  /* display: inline-block; */
+  height: 800px;
+  width: 70px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.center {
+  /* background-color: orange; */
+  width: 100px;
+  height: 100px;
+  float: left;
+  /* display: inline-block; */
+  height: auto;
+  width: 560px ;
+  margin: 0px;
+  padding: 0px;
+  ;
+}
+
+.right {
+  /* background-color: red; */
+  width: 100px;
+  height: 100px;
+  float: left;
+  /* display: inline-block; */
+  height: 800px;
+  width: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+
+
+/************************************************/
+
+
+/* アイコン系 */
+
+
+/* header */
+
+
+/************************************************/
+
+
+/* 新規アクションのアイコン系 */
+
+.new-action {
+  filter: invert(91%) sepia(99%) saturate(10000%) hue-rotate(203deg) brightness(169%) contrast(135%);
+}
+
+.spreaded-icon-a{
+  height: 36px;
+}
+
+
+/* 新規アクションのアイコン系 終わり */
+
+.image-icon {
+  width: 30px;
+  height: 30px;
+  /* filter: invert(91%) sepia(99%) saturate(10000%) hue-rotate(203deg) brightness(169%) contrast(135%) */
+}
+
+div.left>a {
+  display: block;
+}
+
+.div-outside-image {
+  width: 70px;
+  height: 70px;
+  margin: 10px auto;
+}
+
+.if-spread {
+  width: 50px;
+  height: 50px;
+  margin: 10px 0px 10px 30px;
+}
+
+
+
+.site-image-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.site-image {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.post-icon {
+  background-color:rgb(64, 169, 255);
+}
+
+.post-icon:hover {
+  background: #3790da;
+}
+
+
+
+.outer {
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 13px 20px;
+}
+
+
+/* .icon-discription {
+  font-weight: 900;
+  position: absolute;
+  left: 100px;
+  font-size: larger;
+} */
+
+.icon-to-center-for-a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 50%;
+}
+
+.icon-to-center-for-a:hover {
+  background-color: rgba(90, 230, 255, 0.068);
+  filter: invert(91%) sepia(99%) saturate(10000%) hue-rotate(203deg) brightness(169%) contrast(135%);
+}
+
+.icon-to-center-for-img {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
+
+/* すべて展開したときの動作 */
+
+.if-spreaded {
+  display: inline-flex;
+  margin: 5px 20px;
+}
+
+.spreaded-icon-a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  /* background-color: red; */
+  border-radius: 100px;
+  padding: 8px 15px;
+}
+
+.spreaded-icon-a:hover {
+  background-color: rgba(90, 230, 255, 0.068);
+  filter: invert(91%) sepia(99%) saturate(10000%) hue-rotate(203deg) brightness(169%) contrast(135%);
+}
+
+.img-size {
+  width: 30px;
+}
+
+.spreaded-icon-name {
+  float: left;
+  margin-left: 20px;
+  margin-right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+/************************************************/
+
+
+/* ライムライン系 */
+
+
+/************************************************/
+
+
+/* ホーム */
+
+.menu-name-parent {
+  /* background-color: red; */
+  height: 50px;
+  border-bottom: 2px solid rgb(48, 60, 67);
+  /* border-top: 2px solid rgb(48, 60, 67); */
+  position: relative;
+}
+
+.menu-name {
+  font-size: larger;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  transform: translate(30%, -50%);
+}
+
+
+/* 投稿画面 */
+
+.post-screen {
+  height: 150px;
+}
+#filesend{
+  display: none;
+}
+.send-pic:hover{
+  background-color: rgba(90, 230, 255, 0.068);
+  cursor: pointer;
+}
+.pointer{
+  cursor: pointer;
+}
+
+/* --- INPUT=TEXTの標準デザイン設定 ---------------------*/
+
+.text-area {
+  display: block;
+  /* width: 90%; */
+  /* 入力域の最大幅 */
+  background: transparent;
+  /* 入力域の背景色 */
+  border-bottom: 1px solid rgb(48, 60, 67);
+  /* 入力域の枠線   */
+  border-radius: 4px;
+  /* 入力域の角丸   */
+  padding: 8px;
+  /* 入力文字の余白 */
+  font-size: 16px;
+  /* 入力文字サイズ */
+  color: white;
+  /* 入力文字の色   */
+  font-weight: bold;
+  /* 入力文字の太字 */
+  letter-spacing: .1em;
+  /* 入力文字の間隔 */
+  line-height: 19px;
+  /* 入力文字の間隔 */
+  overflow: scroll;
+  /* margin: 5px auto; */
+}
+
+
+/* --- 入力フィールドにフォーカスか来たら ----------------*/
+
+.text-area:focus {
+  /* border-color: white; */
+  /* 枠線色     */
+  background-color: transparent;
+  /* 背景色     */
+  outline: 0;
+}
+
+
+/* --- 入力説明の文字(標準) -----------------------------*/
+
+.text-area:placeholder-shown {
+  color: rgba(106, 123, 135);
+  /* 文字色     */
+}
+
+
+/* --- 入力説明の文字(Chrome,Safari,Android,iOS等) ---- -*/
+
+.text-area::-webkit-input-placeholder {
+  color: rgba(106, 123, 135);
+  /* 文字色     */
+}
+
+
+/* --- 入力説明の文字(IE用) -----------------------------*/
+
+.text-area:-ms-input-placeholder {
+  color: rgba(106, 123, 135);
+  /* 文字色     */
+}
+
+
+/* ユーザアイコン */
+
+
+/* 投稿ボタン */
+
+.btn--orange,
+a.btn--orange {
+  color: #fff;
+  background-color: rgb(64, 169, 255);
+}
+
+.btn--orange:hover,
+a.btn--orange:hover {
+  color: #fff;
+  background: rgb(55, 144, 218);
+}
+
+a.btn--radius {
+  border-radius: 100vh;
+}
+
+.btn,
+a.btn,
+button.btn {
+  font-size: large;
+  font-weight: 700;
+  /* line-height: 1.5; */
+  position: relative;
+  display: inline-block;
+  padding: 3px 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  color: #fff;
+  border-radius: 0.5rem;
+  margin: 0 0 0 auto;
+}
+
+
+/************************/
+
+
+/* 右側 */
+
+
+/************************/
+
+
+/* 検索バー*/
+
+
+/* --- INPUT=TEXTの標準デザイン設定 ---------------------*/
+
+.search-bar {
+  display: block;
+  width: 80%;
+  height: 20px;
+  background-color: transparent;
+  border: 0px;
+  display: block;
+  /* width: 90%; */
+  /* 入力域の最大幅 */
+  background: transparent;
+  /* 入力域の背景色 */
+  border: 0px;
+  /* 入力域の枠線   */
+  /* border-radius: 4px; */
+  /* 入力域の角丸   */
+  padding: 10px 0;
+  /* 入力文字の余白 */
+  font-size: 16px;
+  /* 入力文字サイズ */
+  color: white;
+  /* 入力文字の色   */
+  font-weight: bold;
+  /* 入力文字の太字 */
+  letter-spacing: .1em;
+  /* 入力文字の間隔 */
+  line-height: 19px;
+  /* 入力文字の間隔 */
+  overflow: scroll;
+  /* margin: 5px auto; */
+}
+
+
+/* --- 入力フィールドにフォーカスか来たら ----------------*/
+
+.search-bar:focus {
+  /* border: 1px solid white; */
+  /* 枠線色     */
+  background-color: transparent;
+  /* 背景色     */
+  outline: 0;
+}
+
+.search-icon .search-bar:focus {
+  width: 100px;
+  /* border: 1px solid white; */
+}
+
+
+/* --- 入力説明の文字(標準) -----------------------------*/
+
+.search-bar:placeholder-shown {
+  color: rgba(106, 123, 135);
+  /* 文字色     */
+}
+
+
+/* --- 入力説明の文字(Chrome,Safari,Android,iOS等) ---- -*/
+
+.search-bar::-webkit-input-placeholder {
+  color: rgba(106, 123, 135);
+  /* 文字色     */
+}
+
+
+/* --- 入力説明の文字(IE用) -----------------------------*/
+
+.search-bar:-ms-input-placeholder {
+  color: rgba(106, 123, 135);
+  /* 文字色     */
+}
+
+
+/****************************************************************/
+
+
+/* 通知 */
+
+
+/****************************************************************/
+
+.notification-button-rep:hover {
+  background-color: rgba(90, 230, 255, 0.068);
+  color: rgb(29, 161, 242);
+}
+
+.notification-button-all:hover {
+  background-color: rgba(90, 230, 255, 0.068);
+  color: rgb(29, 161, 242);
+}
+
+.blue-when-hover:hover {
+  background-color: rgba(90, 230, 255, 0.068);
+  color: rgb(29, 161, 242);
+}
+
+
+/****************************************************************/
+
+
+/* プロフィール */
+
+
+/****************************************************************/
+
+.edit-prof:hover {
+  background-color: rgba(86, 86, 255, 0.123);
+}
+.header-image{
+  width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: 0% 28%;
+}
+.user-image-a{
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 1%;
+  transform: translate(0, -50%);
+}
+.user-image-image-tag{
+  width: 140px;
+    border-radius: 50%;
+    height: 140px;
+    object-fit: cover;
+    object-position: 20% 45%;
+    border: 5px solid rgb(20, 29, 38);
+}
+
+/* 投稿、返信、写真、グッドの装飾 */
+.profile-item{
+  padding: 15px 0;
+  float:left;width: calc(100%/2);
+  font-weight: bold;
+  border-bottom: 3px solid rgb(48, 60, 67);
+}
+
+/* 投稿の下のボタン */
+.rep-button{
+  position: relative;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+}
+.rep-button:hover{
+  background-color: rgba(90, 230, 255, 0.068);
+}
+.post-button{
+  width:calc(100%/2) ;
+  border-bottom:1px solid rgb(48, 60, 67);
+}
+/****************************************************************/
+
+
+/* 設定 */
+
+
+/****************************************************************/
+
+.setting-outer {
+  height: auto;
+  position: relative;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgb(56, 68, 77);
+}
+
+.setting-menu-inner {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.setting-inner {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 15px;
+}
+
+.right-icon {
+  width: 13px;
+}
+
+.setting-name-hover:hover {
+  background-color: rgba(90, 230, 255, 0.068);
+}
+
+
+/* ユーザ画像を丸くする */
+.radi50{
+  border-radius: 50%;
+}
+
+/****************************************************************/
+
+
+/* ログアウト */
+
+
+/****************************************************************/
+.logout{
+  padding: 10px;
+  border-radius: 9999px;
+}
+.logout:hover{
+  
+  background-color: rgba(90, 230, 255, 0.068);
+}
+
