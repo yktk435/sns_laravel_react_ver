@@ -18,14 +18,11 @@
         "axios": "^0.19",
         "bootstrap": "^4.0.0",
         "cross-env": "^7.0",
+        "history": "^4.7.2",
         "jquery": "^3.2",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.19",
         "popper.js": "^1.12",
-        "resolve-url-loader": "^3.1.0",
-        "sass": "^1.15.2",
-        "sass-loader": "^8.0.0",
-        "history": "^4.7.2",
         "prop-types": "^15.6.0",
         "qs": "^6.5.1",
         "react": "^16.2.0",
@@ -36,6 +33,9 @@
         "react-router-redux": "^5.0.0-alpha.9",
         "redux": "^3.7.2",
         "redux-logger": "^3.0.6",
-        "redux-thunk": "^2.2.0"
+        "redux-thunk": "^2.2.0",
+        "resolve-url-loader": "^3.1.0",
+        "sass": "^1.15.2",
+        "sass-loader": "^8.0.0"
     }
 }
