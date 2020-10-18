@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import Setting from '../components/centerarea/setting/setting'
 import * as actions from '../actions/fetch'
-import * as home from '../actions/home'
+import * as setting from '../actions/setting'
 
 const mapStateToProps = (state, ownProps) => {
   return (
@@ -12,9 +12,15 @@ const mapStateToProps = (state, ownProps) => {
       iconUrl: state.userInfo.user.iconUrl,
       headerUrl: state.userInfo.user.headerUrl,
       accessToken: state.userInfo.user.accessToken,
+      style: state.setting.style,
+      menuMode:state.setting.menuMode,
       error: false,
     }
   )
 };
-
-export default connect(mapStateToProps)(Setting);
+const mapDispatchToProps = dispatch => ({
+  clickMenuItem(e) {
+      dispatch(setting.clickMenuItem(e))
+  },
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Setting);

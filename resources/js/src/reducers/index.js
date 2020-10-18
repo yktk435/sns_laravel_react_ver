@@ -11,3 +11,6 @@ export { default as login } from './login'
 
 // 記事
 export { default as articles } from './articles'
+
+// 設定
+export { default as setting } from './setting'

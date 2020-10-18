@@ -3,7 +3,7 @@ let filter = {
 }
 // 初期状態
 const initialState = {
-    style: [filter, {}, {}, {},],
+    style: [filter, {}, {},],
     menuMode:'post',
     response: undefined,
     error: false

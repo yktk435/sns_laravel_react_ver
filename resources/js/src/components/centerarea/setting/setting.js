@@ -5,7 +5,10 @@ class Setting extends React.Component{
         
     }
     render() {
-        const { userId}=this.props
+        const { userId } = this.props
+        console.log('setting')
+        console.log(this.props)
+        console.log('setting')
         return (
             <div className="main-container" style={{ overflow: "auto" }}>
                 <React.Fragment>
@@ -14,9 +17,9 @@ class Setting extends React.Component{
                         <div class="setting-menu-inner">@{userId}</div>
                     </div>
                     {/* アカウント */}
-                    <CenterItem itemName="アカウント" imageUrl={right} />
-                    <CenterItem itemName="セキュリティ" imageUrl={right} />
-                    <CenterItem itemName="通知" imageUrl={right} />
+                    <CenterItem id="account" itemName="アカウント" imageUrl={right}  divstyle={this.props.style[0]} clickMenuItem={this.props.clickMenuItem}/>
+                    <CenterItem id="security" itemName="セキュリティ" imageUrl={right}  divstyle={this.props.style[1]} clickMenuItem={this.props.clickMenuItem}/>
+                    <CenterItem id="notification" itemName="通知" imageUrl={right}  divstyle={this.props.style[2]} clickMenuItem={this.props.clickMenuItem}/>
                 </React.Fragment>
             </div>
         )    
@@ -26,11 +29,15 @@ class Setting extends React.Component{
 }
 const CenterItem = (props) => {
     return (
-        <div class="setting-outer setting-name-hover">
-            <a href="" class="a-to-block2" style={{ height: "30px" }}>
+        <div id={props.id} class="setting-outer setting-name-hover" style={props.divstyle} onClick={(e) => {
+            let div = e.target.closest('div.setting-outer.setting-name-hover')
+            console.log(div)
+            props.clickMenuItem(div.innerText)
+        }}>
+            <a class="a-to-block2 pointer" style={{ height: "30px" }}>
                 <div class="setting-inner">{props.itemName}</div>
                 <div class="menu-name" aria-label="メニュー名" style={{ transform: "translate(-20%, -75%)", right: "1%" }}>
-                    <a class="" href="" aria-label="">
+                    <a class=""  aria-label="">
                         <img class="right-icon" src={props.imageUrl} alt="" />
                     </a>
                 </div>
@@ -57,10 +64,10 @@ export const RightAreaSetting = (props) => {
                 <RightItem2 itemName="パスワード" />
                 {/* <!-- アカウント削除 --> */}
                 <div class="setting-outer setting-name-hover">
-                    <a href="" class="a-to-block2" style={{height: "30px"}}>
+                    <a  class="a-to-block2" style={{height: "30px"}}>
                         <div class="setting-inner">アカウント削除</div>
                         <div class="menu-name" aria-label="メニュー名" style={{transform: "translate(-20%, -75%)",right: "1%"}}>
-                            <a class="" href="" aria-label="新規アクション">
+                            <a class=""  aria-label="新規アクション">
                                 <img class="right-icon" src={right} alt="新規メッセージ"/>
                             </a>
                         </div>
@@ -81,13 +88,13 @@ export const RightItemName = (props) => {
  const RightItem = (props) => {
     return (
         <div class="setting-outer setting-name-hover">
-            <a href="" class="a-to-block2">
+            <a  class="a-to-block2">
                 <div>
                     <div class="">{props.itemName}</div>
                     <div style={{ fontSize: "13px", color: "rgb(115, 129, 136)" }}>{props.itemContent}</div>
                 </div>
                 <div class="menu-name" aria-label="メニュー名" style={{ transform: "translate(-20%, -50%)", right: "1%" }}>
-                    <a class="" href="" aria-label="新規アクション">
+                    <a class=""  aria-label="新規アクション">
                         <img class="right-icon" src={right} alt="新規メッセージ" />
                     </a>
                 </div>
@@ -99,10 +106,10 @@ export const RightItemName = (props) => {
 const RightItem2 = (props) => {
     return (
         <div class="setting-outer setting-name-hover" style={{borderBottom: "10px solid rgb(56, 68, 77)"}}>
-        <a href="" class="a-to-block2" style={{height: "30px"}}>
+        <a  class="a-to-block2" style={{height: "30px"}}>
                 <div class="setting-inner">{props.itemName}</div>
             <div class="menu-name" aria-label="メニュー名" style={{transform: "translate(-20%, -75%)",right: "1%"}}>
-                <a class="" href="" aria-label="新規アクション">
+                <a class=""  aria-label="新規アクション">
                     <img class="right-icon" src={right} alt="新規メッセージ"/>
                 </a>
             </div>

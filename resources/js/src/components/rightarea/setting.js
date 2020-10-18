@@ -2,13 +2,6 @@ import React from 'react'
 import right from '../images/right.png'
 const Setting = () => {
 
-    let userInfo = {
-        userName: "テスユーザ",
-        userImageUrl: "./src/work/image/user.jpg",
-        userHeaderUrl: "./src/work/image/user_header.jpg",
-        userId: "testuser",
-
-    }
     return (
         <div className="main-container" style={{ overflow: "auto" }}>
             <React.Fragment>
@@ -51,7 +44,7 @@ export const RightAreaSetting = (props) => {
             <React.Fragment>
                 {/* <!-- 設定項目 --> */}
                 <div class="menu-name-parent" aria-label="メニュー名">
-                    <div class="menu-name" aria-label="メニュー名">項目名</div>
+                    <div class="menu-name" aria-label="メニュー名">{props.menuMode}</div>
                 </div>
                 {/* <!-- ログインとセキュリティ --> */}
                 <div class="setting-outer" style={{ height: "30px" }}>

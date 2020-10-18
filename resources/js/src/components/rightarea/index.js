@@ -5,7 +5,7 @@ import search from '../images/search.png'
 class RightArea extends React.Component {
     render() {
         this.mode = <SearchArea display={this.props.display}/>
-        if (this.props.menuName === 'setting') this.mode = <RightAreaSetting display={this.props.display}/>
+        if (this.props.menuName === 'setting') this.mode = <RightAreaSetting display={this.props.display} menuMode={this.props.setting.menuMode}/>
         else if (this.props.menuName === 'dm') this.mode = <RightAreaDm display={this.props.display}/>
         return (
             this.mode

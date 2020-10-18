@@ -602,6 +602,9 @@ button.btn {
 .setting-name-hover:hover {
   background-color: rgba(90, 230, 255, 0.068);
 }
+.setting-name-select {
+  background-color: rgba(90, 230, 255, 0.068);
+}
 
 
 /* ユーザ画像を丸くする */

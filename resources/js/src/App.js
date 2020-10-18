@@ -8,6 +8,7 @@ import CenterArea from './containers/centerarea'
 import Login from './containers/login'
 import { Switch, Route, Redirect } from 'react-router-dom';
 import './index.css'
+import CreateAccount from './components/createAccount'
 class App extends Component {
   componentWillMount() {
 
@@ -18,13 +19,13 @@ class App extends Component {
       token = item.match(/access_token=(.*)/)
 
     })
-    
-    if (token == null) { 
+
+    if (token == null) {
       // クッキーにアクセストークンがないならログインにリダイレクト
-      
+
     } else {
       // クッキーにアクセストークンがあるならそれを使ってログイン
-      token = token[1];  
+      token = token[1];
       console.log(token)
       // dispatch
       this.props.startLoginWithToken(token)
@@ -42,11 +43,23 @@ class App extends Component {
         <RightArea />
       </div>
     )
-    if(!this.props.userInfo.user.auth)this.comp=<Login/>
-    return (
-<div>   {this.comp}</div>
-     
+    if (!this.props.userInfo.user.auth) this.comp = (
       
+      <Switch>
+        <Route path="/login" component={Login}/>
+        <Route path="/create"  component={CreateAccount}/>
+      </Switch>
+      
+    )
+    return (
+      <div>   {this.comp}</div>
+      
+      // <div style={{backgroundColor:"red"}}>
+      //   <CreateAccount/>
+      // </div>
+      
+
+
 
       // <Switch>
       //   <Route path="/login" exact component={Login} />
