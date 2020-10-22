@@ -48,6 +48,7 @@ class LoginController extends Controller
             "iconUrl" => $memberTable['icon'],
             "headerUrl" => $memberTable['header'],
             "accessToken" => $accessToken,
+            "mail"=>$memberTable['email'],
         ];
         return $array;
         // ここから同じコード ここまで
@@ -105,6 +106,7 @@ class LoginController extends Controller
             "iconUrl" => $memberTable['icon'],
             "headerUrl" => $memberTable['header'],
             "accessToken" => $accessToken,
+            "mail"=>$memberTable['email'],
         ];
         return $array;
 
@@ -176,6 +178,7 @@ class LoginController extends Controller
             "iconUrl" => $memberTable['icon'],
             "headerUrl" => $memberTable['header'],
             "accessToken" => $accessToken,
+            "mail"=>$memberTable['email'],
         ];
         return $array;
     }

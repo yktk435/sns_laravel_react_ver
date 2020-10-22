@@ -20,7 +20,7 @@ class LoginCheckMiddleware
         
         $csrfToken = $request->header('X-CSRF-TOKEN');
         $accessToken = $request->header('access_token');
-        
+        // return response([$request->header('access_token')]);
         // $accessToken = "qwertyuiopasdfghjkl";
         $tokens = [
             "csrfToke" => $csrfToken,

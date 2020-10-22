@@ -19,9 +19,9 @@ class CreateMembersTable extends Migration
             $table->string('name');
             $table->string('user_id');
             $table->string('password');
-            $table->string('email');
-            $table->string('icon');    
-            $table->string('header');    
+            $table->string('email')->nullable();
+            $table->string('icon')->nullable();    
+            $table->string('header')->nullable();    
         });
     }
 

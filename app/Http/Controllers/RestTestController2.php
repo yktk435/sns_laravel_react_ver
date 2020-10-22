@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use App\Article;
 use App\Member;
 use App\Token;
@@ -16,7 +18,53 @@ class RestTestController2 extends Controller
      */
     public function index(Request $request)
     {
-        rename('/Users/yokotsukahiroki/work/samurai/lesson/sns/sns_laravel_react/storage/app/images/memberId_1/jPT6PXMN8SsPPq7JgwKB3cTIvvHppTWx2SactCFd.png','/Users/yokotsukahiroki/work/samurai/lesson/sns/sns_laravel_react/public/images');
+        
+        $data=$request->toArray();
+        // $keyword=$data['keyword'];
+        $keyword='カンガルー';
+        
+        // $memberid=$data['member_id'];
+        $resArticle=[];
+        $resMember=[];
+        $articles=DB::table('articles')->where('content','like','%'.$keyword.'%')->get();
+        if(count($articles)){
+            $articles=$articles->toarray();
+            foreach ($articles as $article ) {
+                var_dump($article->member_id);
+                
+                $membertable=Member::find($article->member_id)->first()->toArray();
+                $resArticle[]=[
+                    'article_id'=>$article->id,
+                    'content'=>$article->content,
+                    'created_at'=>$article->created_at,
+                    'member_id'=>$article->member_id,
+                    'userName'=>$membertable['name'],
+                    'userId'=>$membertable['user_id'],
+                    'iconUrl'=>$membertable['icon'],
+                ];
+                
+            }
+            
+        }
+        $members=DB::table('members')->where('name','like','%'.$keyword.'%')->get();
+        var_dump($members);
+        if(count($members)){
+            foreach ($members as $member ) {
+                
+                $resMember[]=[
+                    'member_id'=>$member->id,
+                    'userName'=>$member->name,
+                    'userId'=>$member->user_id,
+                    'iconUrl'=>$member->icon,
+                ];
+            }
+        }
+        $searchRes=[
+            'members'=>$resMember,
+            'articles'=>$resArticle,
+        ];
+        dd($searchRes);
+        return $searchRes;
     }
 
     /**

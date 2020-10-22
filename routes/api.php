@@ -25,7 +25,13 @@ Route::group(['middleware' => ['api']], function () {
 Route::group(['middleware' => ['api']], function () {
     Route::resource('/article', 'RestArticleController')->middleware(LoginCheckMiddleware::class);
 });
+
+
 // ログイン用
 Route::group(['middleware' => ['api']], function () {
     Route::resource('/login', 'LoginController');
+});
+
+Route::group(['middleware' => ['api']], function () {
+    Route::resource('/member', 'RestMemberController')->middleware(LoginCheckMiddleware::class);
 });
