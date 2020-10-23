@@ -142,9 +142,18 @@ class RestMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        //
+        $userId=$request->all()['userId'];
+        $member=Member::where('user_id',$userId)->first()->toArray();
+        $array = [
+            "userName" => $member['name'],
+            "userId" => $userId,
+            "iconUrl" => $member['icon'],
+            "headerUrl" => $member['header'],
+            "mail"=>$member['email'],
+        ];
+        return $array;
     }
 
     /**

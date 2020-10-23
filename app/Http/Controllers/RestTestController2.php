@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Article;
 use App\Member;
 use App\Token;
+use App\Friend;
 
 class RestTestController2 extends Controller
 {
@@ -18,53 +19,10 @@ class RestTestController2 extends Controller
      */
     public function index(Request $request)
     {
-        
-        $data=$request->toArray();
-        // $keyword=$data['keyword'];
-        $keyword='カンガルー';
-        
-        // $memberid=$data['member_id'];
-        $resArticle=[];
-        $resMember=[];
-        $articles=DB::table('articles')->where('content','like','%'.$keyword.'%')->get();
-        if(count($articles)){
-            $articles=$articles->toarray();
-            foreach ($articles as $article ) {
-                var_dump($article->member_id);
-                
-                $membertable=Member::find($article->member_id)->first()->toArray();
-                $resArticle[]=[
-                    'article_id'=>$article->id,
-                    'content'=>$article->content,
-                    'created_at'=>$article->created_at,
-                    'member_id'=>$article->member_id,
-                    'userName'=>$membertable['name'],
-                    'userId'=>$membertable['user_id'],
-                    'iconUrl'=>$membertable['icon'],
-                ];
-                
-            }
-            
-        }
-        $members=DB::table('members')->where('name','like','%'.$keyword.'%')->get();
-        var_dump($members);
-        if(count($members)){
-            foreach ($members as $member ) {
-                
-                $resMember[]=[
-                    'member_id'=>$member->id,
-                    'userName'=>$member->name,
-                    'userId'=>$member->user_id,
-                    'iconUrl'=>$member->icon,
-                ];
-            }
-        }
-        $searchRes=[
-            'members'=>$resMember,
-            'articles'=>$resArticle,
-        ];
-        dd($searchRes);
-        return $searchRes;
+        $memberId = 2;
+        $userId = 'keanu';
+        $f=Member::where('user_id',$userId);
+        dd($f->toArray());
     }
 
     /**
@@ -85,7 +43,7 @@ class RestTestController2 extends Controller
      */
     public function store(Request $request)
     {
-        $request->file('av')->move('kamonohasi','agonaoki');
+        $request->file('av')->move('kamonohasi', 'agonaoki');
     }
 
     /**
@@ -96,8 +54,27 @@ class RestTestController2 extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        // $memberId=$request->all()['member_id'];
+        $memberId=1;
+        // $memberTable=Member::find($memberId)->from->keyBy('to')->toArray();
+        $memberTable=Member::find($memberId)->from;
+        $followIds=$memberTable->map(function($item,$key){return $item->toArray()['to'];})->toArray();
+        $followIds[]=$memberId;
+        dd($followIds);
+        $articles=Article::whereIn('member_id',$followIds->toArray())->get()->toArray();
+        foreach ($articles as &$article) {
+            $article['postImageUrl']=Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
+        }
+        foreach ($followIds as $memberId) {
+            $memberTable=Member::find($memberId);
+            $memberInfo=$memberTable->toArray();
+            $res['memberIds'][$memberInfo['id']]=$memberInfo;
+        }
+        $res['articles']=$articles;
+        dd($res);
+
+        // return $res;
+        }
 
     /**
      * Show the form for editing the specified resource.
@@ -107,7 +84,7 @@ class RestTestController2 extends Controller
      */
     public function edit($id)
     {
-        //
+        print 'a';
     }
 
     /**

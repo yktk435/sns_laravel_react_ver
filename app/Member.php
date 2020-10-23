@@ -15,4 +15,13 @@ class Member extends Model
     function photo(){
         return $this->hasOne('App\Photo');
     }
+    function from(){
+        return $this->hasMany('App\Friend','from');
+    }
+    function to(){
+        return $this->hasMany('App\Friend','to');
+    }
+    function scopeGetTileLine($query,$str){
+        return $query->where();
+    }
 }

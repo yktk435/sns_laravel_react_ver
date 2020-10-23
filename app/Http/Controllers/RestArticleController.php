@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Article;
 use App\Member;
 use App\Photo;
+use Mockery\Undefined;
+
 class RestArticleController extends Controller
 {
     /**
@@ -17,21 +19,30 @@ class RestArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $memberId=$request['member_id'];
-        $member=Member::find($memberId);
-        $userInfo=$member->toArray();
-        $articles=$member->articles->toArray();
+        $data = $request->all();
+        $memberId = $data['member_id'];
+        $userId = $data['userId'];
         
+        if ($userId==='undefined') {
+            $member = Member::find($memberId);
+            
+        } else {
+            $member = Member::where('user_id', $userId)->first();
+        }
         
-        foreach($articles as &$article){
-            $article['user_id']=$userInfo['user_id'];
-            $article['icon']=$userInfo['icon'];
-            $article['header']=$userInfo['header'];
-            $article['name']=$userInfo['name'];
-            $article['url'] = Article::find($article['id'])->photo?Article::find($article['id'])->photo->toArray()['url']:null;
+        $userInfo = $member->toArray();
+        
+        $articles = $member->articles->toArray();
+        
+
+        foreach ($articles as &$article) {
+            $article['user_id'] = $userInfo['user_id'];
+            $article['icon'] = $userInfo['icon'];
+            $article['header'] = $userInfo['header'];
+            $article['name'] = $userInfo['name'];
+            $article['url'] = Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
         }
         return $articles;
-        
     }
 
     /**
@@ -53,47 +64,47 @@ class RestArticleController extends Controller
     public function store(Request $request)
     {
         $env = "http://localhost:8000/";
-        $memberId=$request['member_id'];
-        $member=Member::find($memberId);
-        $userInfo=$member->toArray();
-        $data=$request->all();
+        $memberId = $request['member_id'];
+        $member = Member::find($memberId);
+        $userInfo = $member->toArray();
+        $data = $request->all();
         $nextId = DB::table('articles')->max('id') + 1;
-        
+
         $files = $request->file();
 
         foreach ($files as $file) {
             // $file->store('images/memberId_'.$memberId);
-            $hashName=$file->hashName();
-            $file->move('images/memberId_'.$memberId,$file->hashName(),$hashName);
+            $hashName = $file->hashName();
+            $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
             // $url= Storage::disk('local')->path('images/memberId_'.$memberId.'/'.$file->hashName());
-            $url=$env.'images/memberId_'.$memberId.'/'.$hashName;
+            $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
         }
-        
-        $param=[
+
+        $param = [
             // 'id'=>1,
-            'created_at'=>date("Y-m-d H:i:s"),
-            'content'=>$data['text'],
-            'member_id'=>$memberId,
+            'created_at' => date("Y-m-d H:i:s"),
+            'content' => $data['text'],
+            'member_id' => $memberId,
         ];
         DB::table('articles')->insert($param);
-        
-        if(isset($url)){
-            $param=[
+
+        if (isset($url)) {
+            $param = [
                 // 'id'=>1,
-                'created_at'=>date("Y-m-d H:i:s"),
-                'article_id'=>$nextId,
-                'url'=>$url,
+                'created_at' => date("Y-m-d H:i:s"),
+                'article_id' => $nextId,
+                'url' => $url,
             ];
-            
+
             DB::table('photos')->insert($param);
         }
-        
+
         return [
-            'id'=>$nextId,
-            'member_id'=>$memberId,
-            'header'=>$userInfo['header'],            
-            'content'=>$data['text'],
-            'url'=>isset($url)?$url:null
+            'id' => $nextId,
+            'member_id' => $memberId,
+            'header' => $userInfo['header'],
+            'content' => $data['text'],
+            'url' => isset($url) ? $url : null
         ];
     }
 
@@ -103,9 +114,29 @@ class RestArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        //
+        
+        $memberId=$request->all()['member_id'];
+        
+        // $memberTable=Member::find($memberId)->from->keyBy('to')->toArray();
+        $memberTable=Member::find($memberId)->from;
+        $followIds=$memberTable->map(function($item,$key){return $item->toArray()['to'];})->toArray();
+        $followIds[]=$memberId;
+        $articles=Article::whereIn('member_id',$followIds)->get()->toArray();
+        foreach ($articles as &$article) {
+            $article['postImageUrl']=Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
+        }
+        foreach ($followIds as $memberId) {
+            $memberTable=Member::find($memberId);
+            $memberInfo=$memberTable->toArray();
+            $res['memberIds'][$memberInfo['id']]=$memberInfo;
+        }
+        $res['articles']=$articles;
+        
+
+        
+        return $res;
     }
 
     /**

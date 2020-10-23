@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NotificationsTableSeeder::class);
         $this->call(PhotosTableSeeder::class);
         $this->call(TokensTableSeeder::class);
-        
+        $this->call(FriendsTableSeeder::class);
 
     }
 }

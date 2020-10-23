@@ -28,15 +28,18 @@ class LoginCheckMiddleware
         ];
 
         $accountExist=Token::where('access_token',$accessToken)->first();
-        if ($tokens["access_token"] == null || $accountExist==null) {
+        if ($tokens["access_token"] == null) {
             // アクセストークンがないもしくはアクセストークンが違うからログインへリダイレクト
             // return redirect('/login');
             return response([
-                "error"=>"DBアクセストークンがないもしくはヘッダにアクセストークンがない",
+                "error"=>"ヘッダにアクセストークンがない",
                 "access_token"=>$tokens['access_token'],
-                "accountExist"=>$accountExist,
                 "memberId"=>$request,
-                "ベアラー"=>$request->bearerToken()
+                ]);
+        }else if($accountExist==null){
+            return response([
+                "error"=>"アクセストークンが古い",
+                "accountExist"=>$accountExist
                 ]);
         }
         $request->merge(["member_id" =>$accountExist->toArray()['member_id']]);

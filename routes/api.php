@@ -35,3 +35,8 @@ Route::group(['middleware' => ['api']], function () {
 Route::group(['middleware' => ['api']], function () {
     Route::resource('/member', 'RestMemberController')->middleware(LoginCheckMiddleware::class);
 });
+
+// フォローフォロワー習得
+Route::group(['middleware' => ['api']], function () {
+    Route::resource('/friend', 'RestFriendController')->middleware(LoginCheckMiddleware::class);
+});
