@@ -39,7 +39,9 @@ class LoginCheckMiddleware
         }else if($accountExist==null){
             return response([
                 "error"=>"アクセストークンが古い",
-                "accountExist"=>$accountExist
+                "accountExist"=>$accountExist,
+                "access_token" => $accessToken,
+                "request"=>$request,
                 ]);
         }
         $request->merge(["member_id" =>$accountExist->toArray()['member_id']]);

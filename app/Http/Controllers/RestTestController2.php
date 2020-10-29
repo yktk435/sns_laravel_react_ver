@@ -19,10 +19,13 @@ class RestTestController2 extends Controller
      */
     public function index(Request $request)
     {
-        $memberId = 2;
-        $userId = 'keanu';
-        $f=Member::where('user_id',$userId);
-        dd($f->toArray());
+
+        $articles=Member::find(1)->articles->sortByDesc('id')->toArray();
+        // $articles=Article::whereIn('member_id',[1])->get()->toArray();
+        foreach ($articles as $article) {
+            $ff[]=$article;
+        }
+        dd ($ff);
     }
 
     /**

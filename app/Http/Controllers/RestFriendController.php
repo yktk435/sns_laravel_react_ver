@@ -68,8 +68,8 @@ class RestFriendController extends Controller
         //     }
         // }
         $friends = [
-            'follow' => isset($follow) ? $follow : NULL,
-            'follower' => isset($follower) ? $follower : NULL,
+            'follow' => isset($follow) ? $follow : [],
+            'follower' => isset($follower) ? $follower : [],
         ];
         return $friends;
     }

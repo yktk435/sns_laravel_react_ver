@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Token;
 use App\Member;
+use App\Article;
 use Illuminate\Support\Str;
 
 class RestMemberController extends Controller
@@ -142,18 +143,30 @@ class RestMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request,$userId)
     {
-        $userId=$request->all()['userId'];
-        $member=Member::where('user_id',$userId)->first()->toArray();
-        $array = [
-            "userName" => $member['name'],
-            "userId" => $userId,
-            "iconUrl" => $member['icon'],
-            "headerUrl" => $member['header'],
-            "mail"=>$member['email'],
+        // $userId=$request->all()['userId'];
+        // $userId='keanu';
+        $member=Member::where('user_id',$userId)->first();
+        
+        if($member==NULL)return ['error'=>'そんなアカウントはありません'];
+        else{
+            $member=$member->toArray();
+        }
+        
+        $articles=Member::find($member['id'])->articles->sortByDesc('id')->toArray();
+        foreach ($articles as $article) {
+            $sortArticles[]=$article;
+        }
+        
+        foreach ($sortArticles as &$article) {
+            $article['postImageUrl']=Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
+        }
+        
+        return  [
+            'articles'=>$sortArticles,
+            'member'=>$member,
         ];
-        return $array;
     }
 
     /**

@@ -101,10 +101,10 @@ class RestArticleController extends Controller
 
         return [
             'id' => $nextId,
-            'member_id' => $memberId,
-            'header' => $userInfo['header'],
+            'created_at' => date("Y-m-d H:i:s"),
             'content' => $data['text'],
-            'url' => isset($url) ? $url : null
+            'member_id'=>$memberId,
+            'postImageUrl' => isset($url) ? $url : null
         ];
     }
 
@@ -123,7 +123,7 @@ class RestArticleController extends Controller
         $memberTable=Member::find($memberId)->from;
         $followIds=$memberTable->map(function($item,$key){return $item->toArray()['to'];})->toArray();
         $followIds[]=$memberId;
-        $articles=Article::whereIn('member_id',$followIds)->get()->toArray();
+        $articles=Article::whereIn('member_id',$followIds)->orderBy('id','desc')->get()->toArray();
         foreach ($articles as &$article) {
             $article['postImageUrl']=Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
         }
