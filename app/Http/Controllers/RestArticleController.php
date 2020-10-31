@@ -22,18 +22,17 @@ class RestArticleController extends Controller
         $data = $request->all();
         $memberId = $data['member_id'];
         $userId = $data['userId'];
-        
-        if ($userId==='undefined') {
+
+        if ($userId === 'undefined') {
             $member = Member::find($memberId);
-            
         } else {
             $member = Member::where('user_id', $userId)->first();
         }
-        
+
         $userInfo = $member->toArray();
-        
+
         $articles = $member->articles->toArray();
-        
+
 
         foreach ($articles as &$article) {
             $article['user_id'] = $userInfo['user_id'];
@@ -50,9 +49,11 @@ class RestArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $data = $request->toArray();
+        $memberId = $data['member_id'];
+        $repArticleId = $data['articleId'];
     }
 
     /**
@@ -103,7 +104,7 @@ class RestArticleController extends Controller
             'id' => $nextId,
             'created_at' => date("Y-m-d H:i:s"),
             'content' => $data['text'],
-            'member_id'=>$memberId,
+            'member_id' => $memberId,
             'postImageUrl' => isset($url) ? $url : null
         ];
     }
@@ -114,29 +115,31 @@ class RestArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,$id)
+    public function show(Request $request, $id)
     {
+        $articleId = $id;
+        $article = Article::find($articleId)->toArray();
+
+        $targetMemberId = $article['member_id'];
+        $targetMemberInfo = Member::find($targetMemberId)->toArray();
+
+        $article['postImageUrl'] = Article::find($articleId)->photo ? Article::find($articleId)->photo->toArray()['url'] : null;
+        $comments = Article::find($articleId)->comments->toArray();
         
-        $memberId=$request->all()['member_id'];
-        
-        // $memberTable=Member::find($memberId)->from->keyBy('to')->toArray();
-        $memberTable=Member::find($memberId)->from;
-        $followIds=$memberTable->map(function($item,$key){return $item->toArray()['to'];})->toArray();
-        $followIds[]=$memberId;
-        $articles=Article::whereIn('member_id',$followIds)->orderBy('id','desc')->get()->toArray();
-        foreach ($articles as &$article) {
-            $article['postImageUrl']=Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
-        }
-        foreach ($followIds as $memberId) {
-            $memberTable=Member::find($memberId);
-            $memberInfo=$memberTable->toArray();
-            $res['memberIds'][$memberInfo['id']]=$memberInfo;
-        }
-        $res['articles']=$articles;
-        
+        $commentedMembers = Article::find($articleId)->comments->mapToGroups(function ($item, $key) {
+            return [$item['member_id'] => $item['member_id']];
+        })->toArray();
+        $commentedMembers = array_keys($commentedMembers);
+        $commentedMemberInfo = Member::whereIn('id', $commentedMembers)->get()->toArray();
 
         
-        return $res;
+        return [
+            'article' => $article,
+            'member' => $targetMemberInfo,
+            'comments'=>array_reverse($comments) ,
+            'commentedMembers'=>$commentedMemberInfo
+
+        ];
     }
 
     /**
@@ -145,9 +148,32 @@ class RestArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        if ($id == 'show') {
+            $memberId = $request->all()['member_id'];
+
+            // $memberTable=Member::find($memberId)->from->keyBy('to')->toArray();
+            $memberTable = Member::find($memberId)->from;
+            $followIds = $memberTable->map(function ($item, $key) {
+                return $item->toArray()['to'];
+            })->toArray();
+            $followIds[] = $memberId;
+            $articles = Article::whereIn('member_id', $followIds)->orderBy('id', 'desc')->get()->toArray();
+            foreach ($articles as &$article) {
+                $article['postImageUrl'] = Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
+            }
+            foreach ($followIds as $memberId) {
+                $memberTable = Member::find($memberId);
+                $memberInfo = $memberTable->toArray();
+                $res['memberIds'][$memberInfo['id']] = $memberInfo;
+            }
+            $res['articles'] = $articles;
+
+
+
+            return $res;
+        }
     }
 
     /**

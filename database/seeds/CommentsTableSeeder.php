@@ -15,7 +15,6 @@ class CommentsTableSeeder extends Seeder
         $param=[
             // 'id'=>1,
             'created_at'=>date("Y-m-d H:i:s"),
-            'content'=>'commentsテーブルcontent',
             'article_id'=>1,
             'member_id'=>1,
         ];
@@ -23,7 +22,6 @@ class CommentsTableSeeder extends Seeder
         $param=[
             // 'id'=>2,
             'created_at'=>date("Y-m-d H:i:s"),
-            'content'=>'commentsテーブルcontent',
             'article_id'=>2,
             'member_id'=>1,
         ];
@@ -31,7 +29,6 @@ class CommentsTableSeeder extends Seeder
         $param=[
             // 'id'=>3,
             'created_at'=>date("Y-m-d H:i:s"),
-            'content'=>'commentsテーブルcontent',
             'article_id'=>3,
             'member_id'=>1,
         ];

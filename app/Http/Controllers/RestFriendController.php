@@ -126,7 +126,6 @@ class RestFriendController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $data=$request->all();
         $memberId=$data['member_id'];
         
@@ -135,7 +134,7 @@ class RestFriendController extends Controller
             // フォロー中のをクリックしたと送ってきたら→フォロー解除の処理
             
             $res=DB::table('friends')->where('from',$memberId)->where('to',$targetMemberId)->delete();
-            if($res) return ['フォロー解除しました。'];
+            // if($res) return ['フォロー解除しました。'];
         } else {
             // フォローの処理
             // return ['a'];
@@ -145,10 +144,70 @@ class RestFriendController extends Controller
                 'created_at' => date("Y-m-d H:i:s"),
             ];
             $res=DB::table('friends')->insert($param);
-            if($res)return ['フォローしました。'];
+            // if($res)return ['フォローしました。'];
         }
+        /********************************************/
+        // 反映されたフレンド情報を返す
+        return [
+            'myFriends'=>$this->getFollowFloower($memberId),
+            'targetsFriends'=>$this->getFollowFloower($targetMemberId),
+        ];
+
+        
     }
 
+    function getFollowFloower($memberId){
+        $followerData = Friend::where('to', $memberId)->get();
+
+        $followData = Friend::where('from', $memberId)->get();
+        if ($followerData->isNotEmpty()) {
+            $followerData = $followerData->toArray();
+            foreach ($followerData as $data) {
+                $membertable = Member::find($data['from'])->toArray();
+                $follower[] = [
+                    'userName' => $membertable['name'],
+                    'userId' => $membertable['user_id'],
+                    'iconUrl' => $membertable['icon'],
+                    'memberId' => $membertable['id'],
+                ];
+            }
+        }
+        if ($followData->isNotEmpty()) {
+            $followData = $followData->toArray();
+            foreach ($followData as $data) {
+                $membertable = Member::find($data['to'])->toArray();
+                $follow[] = [
+                    'userName' => $membertable['name'],
+                    'userId' => $membertable['user_id'],
+                    'iconUrl' => $membertable['icon'],
+                    'memberId' => $membertable['id'],
+                ];
+            }
+        }
+        if (isset($follower)) {
+            foreach ($follower as &$followerUser) {
+                foreach ($follow as $followUser) {
+                    if ($followerUser['userName'] == $followUser['userName']) {
+                        $followerUser['follow'] = true;
+                    }
+                }
+            }
+        }
+        // if (isset($follow)) {
+        //     foreach ($follow as &$followUser) {
+        //         foreach ($follower as $followerUser) {
+        //             if($followUser['userName']==$followerUser['userName']){
+        //                 $followUser['follow']=true;
+        //             }
+        //         }
+        //     }
+        // }
+        $friends = [
+            'follow' => isset($follow) ? $follow : [],
+            'follower' => isset($follower) ? $follower : [],
+        ];
+        return $friends;
+    }
     /**
      * Remove the specified resource from storage.
      *

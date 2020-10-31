@@ -18,52 +18,50 @@ class RestMemberController extends Controller
      */
     public function index(Request $request)
     {
-        
-        $data=$request->toArray();
-        $keyword=$data['keyword'];
+
+        $data = $request->toArray();
+        $keyword = $data['keyword'];
         // $keyword='keanu';
-        
+
         // $memberid=$data['member_id'];
-        $resArticle=[];
-        $resMember=[];
-        $articles=DB::table('articles')->where('content','like','%'.$keyword.'%')->get();
-        if(count($articles)){
-            $articles=$articles->toarray();
-            foreach ($articles as $article ) {
-                
-                
-                $membertable=Member::find($article->member_id)->first()->toArray();
-                $resArticle[]=[
-                    'article_id'=>$article->id,
-                    'content'=>$article->content,
-                    'created_at'=>$article->created_at,
-                    'member_id'=>$article->member_id,
-                    'userName'=>$membertable['name'],
-                    'userId'=>$membertable['user_id'],
-                    'iconUrl'=>$membertable['icon'],
-                ];
-                
-            }
-            
-        }
-        $members=DB::table('members')->where('name','like','%'.$keyword.'%')->get();
-        
-        if(count($members)){
-            foreach ($members as $member ) {
-                
-                $resMember[]=[
-                    'member_id'=>$member->id,
-                    'userName'=>$member->name,
-                    'userId'=>$member->user_id,
-                    'iconUrl'=>$member->icon,
+        $resArticle = [];
+        $resMember = [];
+        $articles = DB::table('articles')->where('content', 'like', '%' . $keyword . '%')->get();
+        if (count($articles)) {
+            $articles = $articles->toarray();
+            foreach ($articles as $article) {
+
+
+                $membertable = Member::find($article->member_id)->first()->toArray();
+                $resArticle[] = [
+                    'article_id' => $article->id,
+                    'content' => $article->content,
+                    'created_at' => $article->created_at,
+                    'member_id' => $article->member_id,
+                    'userName' => $membertable['name'],
+                    'userId' => $membertable['user_id'],
+                    'iconUrl' => $membertable['icon'],
                 ];
             }
         }
-        $searchRes=[
-            'members'=>$resMember,
-            'articles'=>$resArticle,
+        $members = DB::table('members')->where('name', 'like', '%' . $keyword . '%')->get();
+
+        if (count($members)) {
+            foreach ($members as $member) {
+
+                $resMember[] = [
+                    'member_id' => $member->id,
+                    'userName' => $member->name,
+                    'userId' => $member->user_id,
+                    'iconUrl' => $member->icon,
+                ];
+            }
+        }
+        $searchRes = [
+            'members' => $resMember,
+            'articles' => $resArticle,
         ];
-        
+
         return $searchRes;
     }
 
@@ -118,7 +116,7 @@ class RestMemberController extends Controller
                 "iconUrl" => 'http://localhost:8000/images/profile.png',
                 "headerUrl" => 'http://localhost:8000/images/user_header.jpg',
                 "accessToken" => $accessToken,
-                "mail"=>$memberTable['email'],
+                "mail" => $memberTable['email'],
             ];
             return $array;
         } else {
@@ -143,30 +141,33 @@ class RestMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$userId)
+    public function edit(Request $request, $userId)
     {
         // $userId=$request->all()['userId'];
         // $userId='keanu';
-        $member=Member::where('user_id',$userId)->first();
-        
-        if($member==NULL)return ['error'=>'そんなアカウントはありません'];
-        else{
-            $member=$member->toArray();
+        if ($userId == 'CHANGE_USERNAME') {
+        } else {
+            $member = Member::where('user_id', $userId)->first();
+
+            if ($member == NULL) return ['error' => 'そんなアカウントはありません'];
+            else {
+                $member = $member->toArray();
+            }
+
+            $articles = Member::find($member['id'])->articles->sortByDesc('id')->toArray();
+            foreach ($articles as $article) {
+                $sortArticles[] = $article;
+            }
+
+            foreach ($sortArticles as &$article) {
+                $article['postImageUrl'] = Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
+            }
+
+            return  [
+                'articles' => $sortArticles,
+                'member' => $member,
+            ];
         }
-        
-        $articles=Member::find($member['id'])->articles->sortByDesc('id')->toArray();
-        foreach ($articles as $article) {
-            $sortArticles[]=$article;
-        }
-        
-        foreach ($sortArticles as &$article) {
-            $article['postImageUrl']=Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
-        }
-        
-        return  [
-            'articles'=>$sortArticles,
-            'member'=>$member,
-        ];
     }
 
     /**
@@ -178,6 +179,7 @@ class RestMemberController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
         $data = $request->toArray();
 
         $input = $data['input'];
@@ -185,7 +187,7 @@ class RestMemberController extends Controller
         $memberid = $data['member_id'];
 
 
-        
+
         switch ($id) {
             case 'userid':
                 DB::table('members')->where('id', $memberid)->update(['user_id' => $input]);
@@ -196,6 +198,9 @@ class RestMemberController extends Controller
             case 'mail':
                 DB::table('members')->where('id', $memberid)->update(['email' => $input]);
                 break;
+            case 'username':
+                DB::table('members')->where('id', $memberid)->update(['name' => $input]);
+                break;
 
             default:
                 return ['error' => 'urlが「コントローラ/番号」の形式じゃない'];
@@ -203,15 +208,15 @@ class RestMemberController extends Controller
         }
 
         $accessToken = Token::where('member_id', $memberid)->first();
-        $memberTable=Member::find($memberid);
-        
+        $memberTable = Member::find($memberid);
+
         $array = [
             "userName" => $memberTable['name'],
             "userId" => $memberTable['user_id'],
             "iconUrl" => $memberTable['icon'],
             "headerUrl" => $memberTable['header'],
             "accessToken" => $accessToken,
-            "mail"=>$memberTable['email'],
+            "mail" => $memberTable['email'],
         ];
         return $array;
     }

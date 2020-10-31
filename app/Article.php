@@ -9,4 +9,7 @@ class Article extends Model
     function photo(){
         return $this->hasOne('App\Photo');
     }
+    function comments(){
+        return $this->hasMany('App\Comment');
+    }
 }

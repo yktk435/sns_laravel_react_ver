@@ -40,3 +40,7 @@ Route::group(['middleware' => ['api']], function () {
 Route::group(['middleware' => ['api']], function () {
     Route::resource('/friend', 'RestFriendController')->middleware(LoginCheckMiddleware::class);
 });
+
+Route::group(['middleware' => ['api']], function () {
+    Route::resource('/comment', 'RestCommentController')->middleware(LoginCheckMiddleware::class);
+});
