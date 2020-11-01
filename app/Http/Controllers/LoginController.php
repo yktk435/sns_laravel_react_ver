@@ -7,6 +7,7 @@ use App\Member;
 use App\Token;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Http\Controllers\RestCommentController;
 
 class LoginController extends Controller
 {
@@ -21,39 +22,15 @@ class LoginController extends Controller
         $accessToken = Str::random(60);
 
         // var_dump($headerToken);
-        $tokenTable=Token::where('access_token',$headerToken)->first();
+        $tokenTable = Token::where('access_token', $headerToken)->first();
         // $tokenTable = Token::where('access_token', 'wJgWiUsdWwJkde1E1VKFRUOMXeIQx3JQBj9EFcgJR84yWWo9FPTBjN6QhZJV')->first();
 
-        if($headerToken==null || $tokenTable==null) return ['error'=>'アクセストークンをヘッダにつけていないか、アクセストークンが間違ってる'];
+        if ($headerToken == null || $tokenTable == null) return ['error' => 'アクセストークンをヘッダにつけていないか、アクセストークンが間違ってる'];
 
         $memberTable = $tokenTable->member->toArray();
-        // print_r(json_encode($memberTable));
         // ここから同じコード
-
-        $tokenTable = Token::where('member_id', $memberTable['id']);
-        if ($tokenTable != null) {
-
-            DB::table('tokens')->where('member_id', $memberTable['id'])->update(["access_token" => $accessToken]);
-        } else {
-            DB::table('tokens')->insert([
-                "member_id" => $memberTable['id'],
-                'created_at' => date("Y-m-d H:i:s"),
-                "access_token" => $accessToken
-            ]);
-        }
-
-        $array = [
-            "userName" => $memberTable['name'],
-            "userId" => $memberTable['user_id'],
-            "iconUrl" => $memberTable['icon'],
-            "headerUrl" => $memberTable['header'],
-            "accessToken" => $accessToken,
-            "mail"=>$memberTable['email'],
-        ];
-        return $array;
+        return $this->sameCode($memberTable,$accessToken);
         // ここから同じコード ここまで
-
-
     }
 
     /**
@@ -83,35 +60,35 @@ class LoginController extends Controller
         $memberTable = Member::where('user_id', $userId)->first();
         $pass = Member::where('password', $pass)->first();
 
-        if ($memberTable == null || $pass == null) return ['error'=>'ユーザ名、もしくはパスワードが間違っている'];
+        if ($memberTable == null || $pass == null) return ['error' => 'ユーザ名、もしくはパスワードが間違っている'];
         $memberTable = $memberTable->toArray();
         // ここから同じコード
-        $tokenTable = Token::where('member_id', $memberTable['id'])->first();
-        
+        return $this->sameCode($memberTable,$accessToken);
+        // ここから同じコード ここまで
+
+    }
+    function sameCode($memberTable,$accessToken){
+        $tokenTable = Token::where('member_id', $memberTable['id']);
         if ($tokenTable != null) {
-            // return ['ある'];
             DB::table('tokens')->where('member_id', $memberTable['id'])->update(["access_token" => $accessToken]);
         } else {
-            // return ['ない'];
             DB::table('tokens')->insert([
                 "member_id" => $memberTable['id'],
                 'created_at' => date("Y-m-d H:i:s"),
                 "access_token" => $accessToken
             ]);
         }
-
         $array = [
             "userName" => $memberTable['name'],
             "userId" => $memberTable['user_id'],
             "iconUrl" => $memberTable['icon'],
             "headerUrl" => $memberTable['header'],
             "accessToken" => $accessToken,
-            "mail"=>$memberTable['email'],
+            "mail" => $memberTable['email'],
+            "goodArticleIds"=>RestGootController::getGoodArticleIds($memberTable['id']),
+            "commentArticleIds"=>RestCommentController::getCommentArticleIds($memberTable['id'])
         ];
         return $array;
-
-        // ここから同じコード ここまで
-
     }
 
     /**
@@ -178,7 +155,7 @@ class LoginController extends Controller
             "iconUrl" => $memberTable['icon'],
             "headerUrl" => $memberTable['header'],
             "accessToken" => $accessToken,
-            "mail"=>$memberTable['email'],
+            "mail" => $memberTable['email'],
         ];
         return $array;
     }

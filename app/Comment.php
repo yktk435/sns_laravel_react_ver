@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    function comments(){
-        return $this->hasMany('App\Comment');
+    function articles(){
+        return $this->hasMany('App\Comment','to_article_id');
     }
 }

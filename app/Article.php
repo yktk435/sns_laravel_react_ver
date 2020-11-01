@@ -10,6 +10,6 @@ class Article extends Model
         return $this->hasOne('App\Photo');
     }
     function comments(){
-        return $this->hasMany('App\Comment');
+        return $this->hasMany('App\Comment','to_article_id');
     }
 }

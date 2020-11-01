@@ -24,4 +24,10 @@ class Member extends Model
     function scopeGetTileLine($query,$str){
         return $query->where();
     }
+    function goods(){
+        return $this->hasMany('App\Good');
+    }
+    function comments(){
+        return $this->hasMany('App\Comment');
+    }
 }

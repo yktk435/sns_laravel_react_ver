@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PhotosTableSeeder::class);
         $this->call(TokensTableSeeder::class);
         $this->call(FriendsTableSeeder::class);
+        $this->call(GoodsTableSeeder::class);
 
     }
 }

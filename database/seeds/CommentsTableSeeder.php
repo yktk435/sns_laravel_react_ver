@@ -15,22 +15,22 @@ class CommentsTableSeeder extends Seeder
         $param=[
             // 'id'=>1,
             'created_at'=>date("Y-m-d H:i:s"),
-            'article_id'=>1,
-            'member_id'=>1,
+            'from_article_id'=>1,
+            'to_article_id'=>1,
         ];
         DB::table('comments')->insert($param);
         $param=[
             // 'id'=>2,
             'created_at'=>date("Y-m-d H:i:s"),
-            'article_id'=>2,
-            'member_id'=>1,
+            'from_article_id'=>2,
+            'to_article_id'=>1,
         ];
         DB::table('comments')->insert($param);
         $param=[
             // 'id'=>3,
             'created_at'=>date("Y-m-d H:i:s"),
-            'article_id'=>3,
-            'member_id'=>1,
+            'from_article_id'=>3,
+            'to_article_id'=>1,
         ];
         DB::table('comments')->insert($param);
     }

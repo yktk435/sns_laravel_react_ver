@@ -10,7 +10,10 @@ use App\Member;
 use App\Token;
 use App\Friend;
 use App\Comment;
+use App\Http\Controllers\RestCommentController;
+use App\Http\Controllers\RestGootController;
 
+use App\Good;
 class RestTestController2 extends Controller
 {
     /**
@@ -20,75 +23,27 @@ class RestTestController2 extends Controller
      */
     public function index(Request $request)
     {
-        // $data = $request->toArray();
-        // $memberId = $data['member_id'];
-        // $repArticleId = $data['articleId'];
-        // $content = $data['content'];
-        $memberId = 1;
-        $repArticleId = 7;
-        $content = '返信内容';
-
-        // commentsテーブルにレコード追加
-        $param = [
-            // 'id'=>1,
-            'created_at' => date("Y-m-d H:i:s"),
-            // 'content' => $content,
-            'article_id' => $repArticleId,
-            'member_id' => $memberId,
-        ];
-        DB::table('comments')->insert($param);
-        /**********************************************/
-        // articlesテーブルへレコード追加
-        /**********************************************/
-        $env = "http://localhost:8000/";
-        
-        $member = Member::find($memberId);
-        $userInfo = $member->toArray();
-        $nextId = DB::table('articles')->max('id') + 1;
-
-        $files = $request->file();
-
-        foreach ($files as $file) {
-            // $file->store('images/memberId_'.$memberId);
-            $hashName = $file->hashName();
-            $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
-            // $url= Storage::disk('local')->path('images/memberId_'.$memberId.'/'.$file->hashName());
-            $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
-        }
-
-        $param = [
-            // 'id'=>1,
-            'created_at' => date("Y-m-d H:i:s"),
-            'content' => $content,
-            'member_id' => $memberId,
-        ];
-        DB::table('articles')->insert($param);
-
-        if (isset($url)) {
-            $param = [
-                // 'id'=>1,
+        // $data=$request->all();
+        // $memberId=$data['member_id'];
+        // $articleId=$id;
+        $memberId=1;
+        $articleId=1;
+        $exist=Good::where('member_id',$memberId)->where('article_id',$articleId);
+        if($exist->get()->isEmpty()){
+            DB::table('goods')->insert([
+                'member_id'=>$memberId,
+                'article_id'=>$articleId,
                 'created_at' => date("Y-m-d H:i:s"),
-                'article_id' => $nextId,
-                'url' => $url,
-            ];
-
-            DB::table('photos')->insert($param);
+            ]);
+        }else{
+            DB::table('goods')->where('member_id',$memberId)->where('article_id',$articleId)->delete();
         }
-        /**********************************************/
-        // articlesテーブルへレコード追加 終わり
-        /**********************************************/
-
-
-        $comments = Article::find($repArticleId)->comments->toArray();
-        $members = Article::find($repArticleId)->comments->mapToGroups(function ($item, $key) {
-            return [$item['member_id'] => $item['member_id']];
-        })->toArray();
-        $members = array_keys($members);
-        $memberInfo = Member::whereIn('id', $members)->get()->toArray();
-        return [
-            'comments' => array_reverse($comments),
-            'members' => $memberInfo,
-        ];
+        return RestGootController::getGoodArticleIds($memberId);
+        
+        
+    }
+    static function sa(){
+        print "sa";
     }
     /**
      * Show the form for creating a new resource.

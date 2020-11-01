@@ -9,7 +9,7 @@ use App\Article;
 use App\Member;
 use App\Photo;
 use Mockery\Undefined;
-
+use App\Http\Controllers\RestGootController;
 class RestArticleController extends Controller
 {
     /**
@@ -118,27 +118,30 @@ class RestArticleController extends Controller
     public function show(Request $request, $id)
     {
         $articleId = $id;
-        $article = Article::find($articleId)->toArray();
 
+        // 記事情報取得
+        $article = Article::find($articleId)->toArray();
+        // その投稿したユーザ情報取得
         $targetMemberId = $article['member_id'];
         $targetMemberInfo = Member::find($targetMemberId)->toArray();
-
+        // 投稿下写真を取得
         $article['postImageUrl'] = Article::find($articleId)->photo ? Article::find($articleId)->photo->toArray()['url'] : null;
+        // そのコメント群を取得
         $comments = Article::find($articleId)->comments->toArray();
-        
+
         $commentedMembers = Article::find($articleId)->comments->mapToGroups(function ($item, $key) {
             return [$item['member_id'] => $item['member_id']];
         })->toArray();
         $commentedMembers = array_keys($commentedMembers);
         $commentedMemberInfo = Member::whereIn('id', $commentedMembers)->get()->toArray();
 
-        
+        $comment=RestCommentController::getComments($articleId);
         return [
-            'article' => $article,
-            'member' => $targetMemberInfo,
-            'comments'=>array_reverse($comments) ,
-            'commentedMembers'=>$commentedMemberInfo
-
+            'article'=>[
+                'article'=>$article,
+                'member'=>$targetMemberInfo,
+            ],
+            'comment'=>$comment
         ];
     }
 
@@ -150,9 +153,9 @@ class RestArticleController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $data=$request->all();
+        $memberId = $data['member_id'];
         if ($id == 'show') {
-            $memberId = $request->all()['member_id'];
-
             // $memberTable=Member::find($memberId)->from->keyBy('to')->toArray();
             $memberTable = Member::find($memberId)->from;
             $followIds = $memberTable->map(function ($item, $key) {
@@ -169,10 +172,10 @@ class RestArticleController extends Controller
                 $res['memberIds'][$memberInfo['id']] = $memberInfo;
             }
             $res['articles'] = $articles;
-
-
-
             return $res;
+        }else if($id=='good'){
+            $articleId=$data['articleId'];
+
         }
     }
 

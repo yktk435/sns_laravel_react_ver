@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Article;
 use App\Member;
+use App\Comment;
 use App\Photo;
 use Mockery\Undefined;
 use App\Http\Controllers\RestArticleController;
 
 class RestCommentController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -44,24 +46,15 @@ class RestCommentController extends Controller
         $memberId = $data['member_id'];
         $repArticleId = $data['articleId'];
         $content = $data['content'];
-        // $memberId=2;
-        // $repArticleId=4;
-        // $content = 'content';
+        // $memberId = 2;
+        // $repArticleId = 7;
+        // $content = '記事ID 7 へ返信内容';
 
-        // commentsテーブルにレコード追加
-        $param = [
-            // 'id'=>1,
-            'created_at' => date("Y-m-d H:i:s"),
-            // 'content' => $content,
-            'article_id' => $repArticleId,
-            'member_id' => $memberId,
-        ];
-        DB::table('comments')->insert($param);
         /**********************************************/
         // articlesテーブルへレコード追加
         /**********************************************/
         $env = "http://localhost:8000/";
-        
+
         $member = Member::find($memberId);
         $userInfo = $member->toArray();
         $nextId = DB::table('articles')->max('id') + 1;
@@ -94,23 +87,84 @@ class RestCommentController extends Controller
 
             DB::table('photos')->insert($param);
         }
+
         /**********************************************/
-        // articlesテーブルへレコード追加 終わり
+        // commentsテーブルへレコード追加
         /**********************************************/
 
+        $param = [
+            // 'id'=>1,
+            'created_at' => date("Y-m-d H:i:s"),
+            // 'content' => $content,
+            'from_article_id' => $nextId,
+            'to_article_id' => $repArticleId,
+        ];
+        DB::table('comments')->insert($param);
+        /**********************************************/
+        // commentsテーブルへレコード追加 終わり
+        /**********************************************/
+        /*
+               // コメントしている記事のIDを取得
+               $articles = Article::find($repArticleId)->comments->mapToGroups(function ($item, $key) {
+                return [$item['from_article_id'] => $item['from_article_id']];
+            })->toArray();;
+            $fromArticleIds = array_keys($articles);
+    
+            // その記事IDたちの記事情報を取得
+            $fromArticles = Article::whereIn('id', $fromArticleIds);
+    
+            // その記事を投稿しているユーザ情報を取得
+            $members = $fromArticles->get()->mapToGroups(function ($item, $key) {
+                return [$item['member_id'] => $item['member_id']];
+            })->toArray();
+    
+            $memberIds = array_keys($members);
+            $members = Member::whereIn('id', $memberIds)->get()->toArray();
+    
+            return [
+                'articles' => $fromArticles->get()->toArray(),
+                'members' => $members,
+            ];
+            */
+        return $this->getComments($repArticleId);
+    }
+    /**
+     * 引数の記事IDのコメント群とそのユーザを下の形にして返す
+     *
+     * [
+     *      'articles' => ,
+     *     'members' => ,
+     * ];
+     */
+    static function getComments($articleId)
+    {
+        // コメントしている記事のIDを取得
+        $articles = Article::find($articleId)->comments->mapToGroups(function ($item, $key) {
+            return [$item['from_article_id'] => $item['from_article_id']];
+        })->toArray();;
+        $fromArticleIds = array_keys($articles);
 
-        $comments = Article::find($repArticleId)->comments->toArray();
-        $members = Article::find($repArticleId)->comments->mapToGroups(function ($item, $key) {
+        // その記事IDたちの記事情報を取得
+        $fromArticles = Article::whereIn('id', $fromArticleIds);
+        
+
+        // その記事を投稿しているユーザ情報を取得
+        $members = $fromArticles->get()->mapToGroups(function ($item, $key) {
             return [$item['member_id'] => $item['member_id']];
         })->toArray();
-        $members = array_keys($members);
-        $memberInfo = Member::whereIn('id', $members)->get()->toArray();
+
+        $memberIds = array_keys($members);
+        $members = Member::whereIn('id', $memberIds)->get()->toArray();
+        $articles=array_reverse($fromArticles->get()->toArray());
+        foreach ($articles as $key => &$article) {
+            $article['postImageUrl'] = Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
+        }
+
         return [
-            'comments' => array_reverse($comments),
-            'members' => $memberInfo,
+            'articles' => $articles,
+            'members' => array_reverse($members),
         ];
     }
-
     /**
      * Display the specified resource.
      *
@@ -154,5 +208,23 @@ class RestCommentController extends Controller
     public function destroy($id)
     {
         //
+    }
+    static function getCommentArticleIds($memberId){
+        $articleIds=Member::find($memberId)->articles->mapWithKeys(function ($item){
+            return [$item['id']=>$item['id']];
+        });
+        $articleIds=array_keys($articleIds->toArray());
+        $commentArticleIds=Comment::whereIn('from_article_id',$articleIds)->get();
+        if($commentArticleIds->isEmpty()){
+            return [];
+        }else{
+            $commentArticleIds=$commentArticleIds->mapWithKeys(function ($item){
+                return [$item['from_article_id']=>$item['from_article_id']];
+            });
+            $commentArticleIds=array_keys($commentArticleIds->toArray());
+
+            return $commentArticleIds;
+        }
+        
     }
 }
