@@ -12,6 +12,14 @@ use Mockery\Undefined;
 use App\Http\Controllers\RestGootController;
 class RestArticleController extends Controller
 {
+    static function getArticles($memberId){
+        $articles=Member::find($memberId)->articles->toArray();
+        foreach($articles as &$article){
+            $article['postImageUrl'] = Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
+        }
+        
+        return array_reverse($articles);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -88,6 +96,8 @@ class RestArticleController extends Controller
             'member_id' => $memberId,
         ];
         DB::table('articles')->insert($param);
+        
+        
 
         if (isset($url)) {
             $param = [
@@ -98,14 +108,23 @@ class RestArticleController extends Controller
             ];
 
             DB::table('photos')->insert($param);
+            
         }
 
-        return [
-            'id' => $nextId,
-            'created_at' => date("Y-m-d H:i:s"),
-            'content' => $data['text'],
-            'member_id' => $memberId,
-            'postImageUrl' => isset($url) ? $url : null
+        // return [
+        //     'id' => $nextId,
+        //     'created_at' => date("Y-m-d H:i:s"),
+        //     'content' => $data['text'],
+        //     'member_id' => $memberId,
+        //     'postImageUrl' => isset($url) ? $url : null
+        // ];
+        
+        return  [
+            'articles' => $this->getArticles($memberId),
+            'member' => Member::find($memberId)->toArray(),
+            "goodArticleIds" => RestGootController::getGoodArticlesAndMembers($memberId),
+            "commentArticleIds" => RestCommentController::getCommentArticleIdsAndMembers($memberId),
+            "photoArticleIds"=>RestPhotoController::getPhotoArticleIds($memberId)
         ];
     }
 

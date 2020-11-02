@@ -3,9 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Member;
+use App\Photo;
 class RestPhotoController extends Controller
 {
+    static function getPhotoArticleIds($memberId){
+        $articleIds=Member::find($memberId)->articles->map(function ($item){
+            return $item['id'];
+        });
+        $photoArticleIds=Photo::whereIn('article_id',$articleIds)->get();
+        if($photoArticleIds->isEmpty()){
+            return [];
+        }else{
+            $photoArticleIds=$photoArticleIds->map(function ($item){
+                return $item['article_id'];
+            })->toArray();
+            return $photoArticleIds;
+        }
+    }
     /**
      * Display a listing of the resource.
      *

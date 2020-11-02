@@ -60,6 +60,7 @@ class RestMemberController extends Controller
         $searchRes = [
             'members' => $resMember,
             'articles' => $resArticle,
+
         ];
 
         return $searchRes;
@@ -116,7 +117,7 @@ class RestMemberController extends Controller
                 "iconUrl" => 'http://localhost:8000/images/profile.png',
                 "headerUrl" => 'http://localhost:8000/images/user_header.jpg',
                 "accessToken" => $accessToken,
-                "mail" => $memberTable['email'],
+                "mail" => $mail,
             ];
             return $array;
         } else {
@@ -166,6 +167,9 @@ class RestMemberController extends Controller
             return  [
                 'articles' => $sortArticles,
                 'member' => $member,
+                "goodArticleIds" => RestGootController::getGoodArticlesAndMembers($member['id']),
+                "commentArticleIds" => RestCommentController::getCommentArticleIdsAndMembers($member['id']),
+                "photoArticleIds"=>RestPhotoController::getPhotoArticleIds($member['id'])
             ];
         }
     }

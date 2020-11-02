@@ -30,4 +30,7 @@ class Member extends Model
     function comments(){
         return $this->hasMany('App\Comment');
     }
+    function photos(){
+        return $this->hasMany('App\Photo');
+    }
 }

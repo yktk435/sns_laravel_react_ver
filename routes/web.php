@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\LoginCheckMiddleware;
+use App\Http\Middleware\ResponseMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*

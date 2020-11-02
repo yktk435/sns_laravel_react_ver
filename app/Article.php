@@ -12,4 +12,10 @@ class Article extends Model
     function comments(){
         return $this->hasMany('App\Comment','to_article_id');
     }
+    function member(){
+        return $this->hasOne('App\Member','id');
+    }
+    function belongsTomember(){
+        return $this->belongsTo('App\Member','member_id');
+    }
 }

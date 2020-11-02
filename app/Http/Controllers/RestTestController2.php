@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Article;
 use App\Member;
+use App\Photo;
 use App\Token;
 use App\Friend;
 use App\Comment;
@@ -23,27 +24,16 @@ class RestTestController2 extends Controller
      */
     public function index(Request $request)
     {
-        // $data=$request->all();
-        // $memberId=$data['member_id'];
-        // $articleId=$id;
         $memberId=1;
-        $articleId=1;
-        $exist=Good::where('member_id',$memberId)->where('article_id',$articleId);
-        if($exist->get()->isEmpty()){
-            DB::table('goods')->insert([
-                'member_id'=>$memberId,
-                'article_id'=>$articleId,
-                'created_at' => date("Y-m-d H:i:s"),
-            ]);
-        }else{
-            DB::table('goods')->where('member_id',$memberId)->where('article_id',$articleId)->delete();
-        }
-        return RestGootController::getGoodArticleIds($memberId);
-        
+        // dd(RestGootController::getGoodArticlesAndMembers($memberId));
+        // dd(Article::find(10)->belongsTomember->toArray());
+        $article=Article::find(1)->toArray();
+        $article['postImageUrl']='sss';
+        dd($article);
         
     }
-    static function sa(){
-        print "sa";
+    static function sa($memberId){
+        
     }
     /**
      * Show the form for creating a new resource.

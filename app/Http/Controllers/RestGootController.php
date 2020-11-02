@@ -6,17 +6,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Member;
 use App\Good;
+use App\Comment;
+use App\Article;
+
 class RestGootController extends Controller
 {
 
-    static function getGoodArticleIds($memberId){
-        
-        $articleIds=Member::find($memberId)->goods->mapToGroups(function ($item, $key) {
-            return [$item['article_id'] => $item['article_id']];
-        })->toArray();;
+    static function getGoodArticleIds($memberId)
+    {
 
-        $articleIds = array_keys($articleIds);
+        $articleIds = Member::find($memberId)->goods->map(function ($item) {
+            return $item['article_id'];
+        })->toArray();;
         return $articleIds;
+    }
+
+    static function getGoodArticlesAndMembers($memberId)
+    {
+        $goodsArticles = Member::find($memberId)->goods;
+        if ($goodsArticles->isEmpty()) return [];
+        $goodsArticleIds = $goodsArticles->map(function ($item,$key) {
+            return [
+                
+                'article' => Article::find($item['article_id'])->toArray(),
+                'member' => Article::find($item['article_id'])->belongsTomember->toArray()
+            ];
+        })->toArray();
+        return array_reverse($goodsArticleIds);
     }
     /**
      * Display a listing of the resource.
@@ -25,9 +41,9 @@ class RestGootController extends Controller
      */
     public function index(Request $request)
     {
-        $data=$request->all();
-        $memberId=$data['member_id'];
-        return $this->getGoodArticleIds($memberId);
+        $data = $request->all();
+        $memberId = $data['member_id'];
+        return $this->getGoodArticlesAndMembers($memberId);
     }
 
     /**
@@ -48,9 +64,9 @@ class RestGootController extends Controller
      */
     public function store(Request $request)
     {
-        $data=$request->all();
-        $memberId=$data['member_id'];
-        $articleId=$data['articleId'];
+        $data = $request->all();
+        $memberId = $data['member_id'];
+        $articleId = $data['articleId'];
         $param = [
             'member_id' => $memberId,
             'article_id' => $articleId,
@@ -76,23 +92,22 @@ class RestGootController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
-        $data=$request->all();
-        $memberId=$data['member_id'];
-        $articleId=$id;
-        $exist=Good::where('member_id',$memberId)->where('article_id',$articleId);
-        if($exist->get()->isEmpty()){
+        $data = $request->all();
+        $memberId = $data['member_id'];
+        $articleId = $id;
+        $exist = Good::where('member_id', $memberId)->where('article_id', $articleId);
+        if ($exist->get()->isEmpty()) {
             DB::table('goods')->insert([
-                'member_id'=>$memberId,
-                'article_id'=>$articleId,
+                'member_id' => $memberId,
+                'article_id' => $articleId,
                 'created_at' => date("Y-m-d H:i:s"),
             ]);
-        }else{
-            DB::table('goods')->where('member_id',$memberId)->where('article_id',$articleId)->delete();
+        } else {
+            DB::table('goods')->where('member_id', $memberId)->where('article_id', $articleId)->delete();
         }
-        return $this->getGoodArticleIds($memberId);
-
+        return $this->getGoodArticlesAndMembers($memberId);
     }
 
     /**

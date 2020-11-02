@@ -46,9 +46,6 @@ class RestCommentController extends Controller
         $memberId = $data['member_id'];
         $repArticleId = $data['articleId'];
         $content = $data['content'];
-        // $memberId = 2;
-        // $repArticleId = 7;
-        // $content = '記事ID 7 へ返信内容';
 
         /**********************************************/
         // articlesテーブルへレコード追加
@@ -70,7 +67,6 @@ class RestCommentController extends Controller
         }
 
         $param = [
-            // 'id'=>1,
             'created_at' => date("Y-m-d H:i:s"),
             'content' => $content,
             'member_id' => $memberId,
@@ -79,7 +75,6 @@ class RestCommentController extends Controller
 
         if (isset($url)) {
             $param = [
-                // 'id'=>1,
                 'created_at' => date("Y-m-d H:i:s"),
                 'article_id' => $nextId,
                 'url' => $url,
@@ -93,11 +88,10 @@ class RestCommentController extends Controller
         /**********************************************/
 
         $param = [
-            // 'id'=>1,
             'created_at' => date("Y-m-d H:i:s"),
-            // 'content' => $content,
             'from_article_id' => $nextId,
             'to_article_id' => $repArticleId,
+
         ];
         DB::table('comments')->insert($param);
         /**********************************************/
@@ -146,7 +140,7 @@ class RestCommentController extends Controller
 
         // その記事IDたちの記事情報を取得
         $fromArticles = Article::whereIn('id', $fromArticleIds);
-        
+
 
         // その記事を投稿しているユーザ情報を取得
         $members = $fromArticles->get()->mapToGroups(function ($item, $key) {
@@ -155,7 +149,7 @@ class RestCommentController extends Controller
 
         $memberIds = array_keys($members);
         $members = Member::whereIn('id', $memberIds)->get()->toArray();
-        $articles=array_reverse($fromArticles->get()->toArray());
+        $articles = array_reverse($fromArticles->get()->toArray());
         foreach ($articles as $key => &$article) {
             $article['postImageUrl'] = Article::find($article['id'])->photo ? Article::find($article['id'])->photo->toArray()['url'] : null;
         }
@@ -209,22 +203,42 @@ class RestCommentController extends Controller
     {
         //
     }
-    static function getCommentArticleIds($memberId){
-        $articleIds=Member::find($memberId)->articles->mapWithKeys(function ($item){
-            return [$item['id']=>$item['id']];
+    static function getCommentArticleIds($memberId)
+    {
+        $articleIds = Member::find($memberId)->articles->map(function ($item) {
+            return $item['id'];
         });
-        $articleIds=array_keys($articleIds->toArray());
-        $commentArticleIds=Comment::whereIn('from_article_id',$articleIds)->get();
-        if($commentArticleIds->isEmpty()){
+        $commentArticleIds = Comment::whereIn('from_article_id', $articleIds)->get();
+        if ($commentArticleIds->isEmpty()) {
             return [];
-        }else{
-            $commentArticleIds=$commentArticleIds->mapWithKeys(function ($item){
-                return [$item['from_article_id']=>$item['from_article_id']];
-            });
-            $commentArticleIds=array_keys($commentArticleIds->toArray());
-
-            return $commentArticleIds;
         }
+
+        $commentArticleIds = $commentArticleIds->map(function ($item) {
+            return $item['from_article_id'];
+        })->toArray();
+        return $commentArticleIds;
+    }
+    static function getCommentArticleIdsAndMembers($memberId)
+    {
+        $articleIds = Member::find($memberId)->articles->map(function ($item) {
+            return $item['id'];
+        });
+        // fromとすることで自分がコメントした記事を抽出
+        $commentArticleIds = Comment::whereIn('from_article_id', $articleIds)->get();
+        
+        if ($commentArticleIds->isEmpty()) {
+            return [];
+        }
+        $memberIds=$commentArticleIds->map(function($item){
+            return [
+                "articleId"=>$item['from_article_id'],
+                "userId"=>Article::find($item['to_article_id'])->belongsTomember->toArray()['user_id']
+            ];
+        })->toArray();
+        return ($memberIds);
+        
+        
+        
         
     }
 }

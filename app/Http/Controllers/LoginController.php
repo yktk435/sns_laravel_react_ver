@@ -8,7 +8,7 @@ use App\Token;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Http\Controllers\RestCommentController;
-
+use App\Http\Controllers\RestPhotoController;
 class LoginController extends Controller
 {
     /**
@@ -85,8 +85,11 @@ class LoginController extends Controller
             "headerUrl" => $memberTable['header'],
             "accessToken" => $accessToken,
             "mail" => $memberTable['email'],
-            "goodArticleIds"=>RestGootController::getGoodArticleIds($memberTable['id']),
-            "commentArticleIds"=>RestCommentController::getCommentArticleIds($memberTable['id'])
+
+            "member"=>Member::find($memberTable['id'])->toArray(),
+            "goodArticleIds"=>RestGootController::getGoodArticlesAndMembers($memberTable['id']),
+            "commentArticleIds"=>RestCommentController::getCommentArticleIdsAndMembers($memberTable['id']),
+            "photoArticleIds"=>RestPhotoController::getPhotoArticleIds($memberTable['id'])
         ];
         return $array;
     }
