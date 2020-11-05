@@ -3,8 +3,19 @@ const initialState = {
     // ホーム画面で投稿するときの投稿するデータの形
     text: '',
     response: '',
-    error: false
+    error: false,
+    timeLineInfo:
+    {
+        memberIds: [],
+        articles: []
+    },
+    
+
 };
+
+const changeTimeLineData = (timeLineInfo) => {
+
+}
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -16,23 +27,48 @@ export default (state = initialState, action) => {
         case 'CLEAR_TEXT':
             // 投稿ボタンを押したら文字を消す
             return {
+                ...state,
                 text: undefined,
                 imageFile: undefined,
-                imageUrl:undefined
+                imageUrl: undefined
             }
-            break;
+
         case 'IMAGE_CHOICE':
             return {
                 ...state,
                 imageUrl: action.payload.imageUrl,
             }
-            break;
+
         case 'IMAGE_CLEAR':
             return {
                 ...state,
                 imageUrl: undefined,
             }
-            break;
+        case 'RECEIVE_TIMELINE':
+            return action.payload.error
+                ? {
+                    ...state,
+                    error: action.payload.error
+                }
+                : {
+                    ...state,
+                    timeLineInfo: action.payload.responce
+                }
+        case 'RECEIVE_POST_DATA':
+            return action.payload.error
+                ? {
+                    ...state,
+                    error: true,
+                    errorMessage:action.payload.error,
+                }
+                : {
+                    ...state,
+                    timeLineInfo: {
+                        articles: [action.payload.responce.articles].concat(state.timeLineInfo.articles),
+                        memberIds:state.timeLineInfo.memberIds
+                    }
+                }
+             
         default:
             return state;
     }

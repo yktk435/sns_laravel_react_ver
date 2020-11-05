@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => ({
     leftAreaWidth: state.windowSizeChange.leftAreaWidth.leftAreaWidth,
     classNameString: state.windowSizeChange.leftAreaWidth.classNameString,
     displayString: state.windowSizeChange.leftAreaWidth.displayString,
-    style:state.leftarea.style
+    style: state.leftarea.style,
+    userId:state.userInfo.user.userId
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -23,7 +24,10 @@ const mapDispatchToProps = dispatch => ({
     },
     logout() {
         dispatch(fetch.logout())
-    }
+    },
+    menuToggle2() {
+        dispatch(fetch.menuToggle2())
+      },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeftArea);

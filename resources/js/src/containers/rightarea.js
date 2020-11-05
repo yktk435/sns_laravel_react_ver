@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import RightArea from '../components/rightarea'
 import * as actions from '../actions/windowSizeChange';
-import setting from '../reducers/setting';
+
 
 const mapStateToProps = (state, ownProps) => {
   let pathname = state.router.location.pathname.replace('/', '')

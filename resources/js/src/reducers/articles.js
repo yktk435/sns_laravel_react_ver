@@ -9,10 +9,10 @@ const initialState = {
         articleId: undefined,
         memberId: undefined,
         content: undefined,
-    }]
+    }],
+    comments: []
 
 };
-
 export default (state = initialState, action) => {
     switch (action.type) {
         case 'RECEIVE_POST_DATA':
@@ -30,27 +30,27 @@ export default (state = initialState, action) => {
                     error: false,
                 }
                 ;
-            break;
+
         case 'RECEIVE_ARTICLES':
             return action.payload.error
-            ? {
-                ...state,
-                errorMessage: action.payload.error,
-                error: true
-            }
-            : {
-                ...state,
-                user: state.user.concat(
-                    action.payload.responce
-                ),
-                error: false,
-            }
-            break;
+                ? {
+                    ...state,
+                    errorMessage: action.payload.error,
+                    error: true
+                }
+                : {
+                    ...state,
+                    user: state.user.concat(
+                        action.payload.responce
+                    ),
+                    error: false,
+                }
+        
         case 'LOGOUT':
             return {
-                 ...initialState
+                ...initialState
             }
-            break
+
         default:
             return state;
     }

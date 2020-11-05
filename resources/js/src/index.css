@@ -280,6 +280,9 @@ div.left>a {
 #filesend{
   display: none;
 }
+#filesend-dm{
+  display: none;
+}
 .send-pic:hover{
   background-color: rgba(90, 230, 255, 0.068);
   cursor: pointer;
@@ -516,9 +519,17 @@ button.btn {
 
 
 /****************************************************************/
+.blue{
+  filter: invert(91%) sepia(99%) saturate(10000%) hue-rotate(203deg) brightness(169%) contrast(135%);
+}
+/* 戻る */
+.goback:hover{
+  background-color: rgba(255, 255, 255, 0.151);
+  filter: invert(91%) sepia(99%) saturate(10000%) hue-rotate(203deg) brightness(169%) contrast(135%);
+}
 
 .edit-prof:hover {
-  background-color: rgba(86, 86, 255, 0.123);
+  background-color: rgba(255, 255, 255, 0.048);
 }
 .header-image{
   width: 100%;
@@ -628,3 +639,25 @@ button.btn {
   background-color: rgba(90, 230, 255, 0.068);
 }
 
+
+
+.article-hover:hover{
+  background-color: rgb(255 255 255/5%);
+}
+
+
+/* DMのメッセージデザイン */
+.message{
+  background-color: rgb(29, 161, 242);
+  font-size: 15px;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  width:max-content;
+  word-wrap: break-word;
+  padding :0 15px;
+}
+
+.message-outer-right{
+  float: right;
+}

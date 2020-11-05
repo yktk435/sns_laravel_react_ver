@@ -19,6 +19,7 @@ class CreateMessagesTable extends Migration
             $table->string('message');
             $table->integer('from_id');
             $table->integer('to_id');
+            $table->string('image')->nullable();
             $table->integer('read');
         });
     }

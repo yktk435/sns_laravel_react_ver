@@ -1,5 +1,5 @@
-export const inputUserName = (userId) => ({
-    type: 'INPUT_USERNAME',
+export const inputUserId = (userId) => ({
+    type: 'INPUT_USERID',
     payload: {
         userId
     }
@@ -18,3 +18,17 @@ export const pushLoginButton = (error) => ({
     }
 })
 
+
+export const inputMail = mail => ({
+    type: 'INPUT_MAIL',
+    payload: {
+      mail
+    }
+  })
+  
+export const inputUserName = userName => ({
+    type: 'INPUT_USER_NAME',
+    payload: {
+      userName
+    }  
+})

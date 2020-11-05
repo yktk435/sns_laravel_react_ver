@@ -3,13 +3,21 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from '../../containers/home'
 // import { Switch, Route, Redirect } from 'react-router-dom';
 import Notification from './notification/notification'
-import Dm from './dm/dm'
+import Dm from '../../containers/dm'
 import Profile from '../../containers/profile'
+
 import Setting from '../../containers/setting'
 import OtherUserPage from '../../containers/otherUserPage'
+import Following from '../../containers/following';
+import Article from '../../containers/Article'
 
 
 class CenterArea extends React.Component {
+    componentWillMount() {
+        this.props.getArticles()
+        // ここでログインしているユーザのフォロワーとフォローを取得しておく
+        this.props.getMyFriends(this.props.myUserId);
+    }
     
     render() {
         const { menuName } = this.props;
@@ -27,13 +35,17 @@ class CenterArea extends React.Component {
                     <Route path="/home" component={Home}/>
                     <Route path="/notification" component={Notification} />
                     <Route path="/dm" component={Dm} />
-                    <Route path="/profile" component={Profile} />
+                    <Route path="/following" component={Following} />
                     <Route path="/setting" component={Setting} />
-                    <Route path="/user/:userId" component={OtherUserPage} />
+                    <Route path="/profile/:userId" component={Profile} />
+                    <Route path="/status/:articleId" component={Article} />
+                    {/* <Route path="/user/:userId" component={OtherUserPage} /> */}
+                    {/* <Route path="/user/:userId" component={Profile} /> */}
                     <Route
                         path="/"
                         render={() => <Redirect to="/home" />}
                     />
+                    
                 </Switch>
 
 

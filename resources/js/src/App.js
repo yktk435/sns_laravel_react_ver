@@ -8,28 +8,16 @@ import CenterArea from './containers/centerarea'
 import Login from './containers/login'
 import { Switch, Route, Redirect } from 'react-router-dom';
 import './index.css'
-import CreateAccount from './components/createAccount'
+import CreateAccount from './containers/createAccount'
+
+import { ProfileEditPage } from './components/otherPage'
+import { PostPage } from './components/otherPage'
+import { CommentPage } from './components/otherPage'
+// import CreateAccount from './components/createAccount'
 class App extends Component {
   componentWillMount() {
 
-    // this.props.getUserInfo()
-
-    let token;
-    document.cookie.split(';').forEach(item => {
-      token = item.match(/access_token=(.*)/)
-
-    })
-
-    if (token == null) {
-      // クッキーにアクセストークンがないならログインにリダイレクト
-
-    } else {
-      // クッキーにアクセストークンがあるならそれを使ってログイン
-      token = token[1];
-      console.log(token)
-      // dispatch
-      this.props.startLoginWithToken(token)
-    }
+    this.props.startLoginWithToken()
   }
 
   render() {
@@ -41,31 +29,39 @@ class App extends Component {
         <CenterArea />
         {/* 右側 */}
         <RightArea />
+
+        {/* プロフィール編集画面 */}
+        <ProfileEditPage {...this.props} />
+        {/* 投稿ページ */}
+        <PostPage {...this.props} />
+        {/* 返信ページ */}
+        <CommentPage {...this.props} />
       </div>
     )
-    if (!this.props.userInfo.user.auth) this.comp = (
-      
-      <Switch>
-        <Route path="/login" component={Login}/>
-        <Route path="/create"  component={CreateAccount}/>
-      </Switch>
-      
-    )
+
+    if (this.props.userInfo.user.dataGet) {
+
+      if (!this.props.userInfo.user.auth) {
+        this.comp = (
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/create" component={CreateAccount} />
+            <Route
+              path="/"
+              render={() => <Redirect to="/login" />}
+            />
+          </Switch>
+
+        )
+      }
+    } else {
+      return (<div>読込中</div>)
+    }
     return (
       <div>   {this.comp}</div>
-      
-      // <div style={{backgroundColor:"red"}}>
-      //   <CreateAccount/>
-      // </div>
-      
-
-
-
-      // <Switch>
-      //   <Route path="/login" exact component={Login} />
-      //   {this.comp}
-      // </Switch>
     )
+
+
   };
 }
 

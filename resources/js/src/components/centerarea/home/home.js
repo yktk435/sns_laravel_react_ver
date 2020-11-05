@@ -1,86 +1,50 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+
+import UserPost from '../../../containers/UserPost'
+
 // 画像
 import pic from '../../images/pic.png'
 import batsu from '../../images/batsu.png'
 import userImageUrl from '../../images/user.jpg'
+import good from '../../images/good.png'
+import rep from '../../images/rep.png'
+import retweet from '../../images/retweet.png'
 
 const createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL;
 class Home extends React.Component {
+    componentWillMount() {
+        // 古いトークンのままにやろうとしているからエラーになる
+        this.props.getTimeLine();
+    }
+
     handleChangeFile(e) {
         const files = e.target.files;
-        console.log(files)
-        
         // ②createObjectURLで、files[0]を読み込む
-        const imageUrl = files.length===0 ? "" : createObjectURL(files[0]);
-        console.log(imageUrl)
+        const imageUrl = files.length === 0 ? "" : createObjectURL(files[0]);
         // ③setStateする！
         this.props.imageChoce(imageUrl)
-
-        
-
     }
     render() {
-
-
-        let PostedUserInfo = {
-            userName: this.props.userName,
-            userImageUrl: "./src/work/image/user.jpg",
-            userId: this.props.userId,
-            createdAt: "202x年x月x日",
-            postImageUrl: "./src/work/image/user.jpg",
-
-        }
-
+        const { articles, memberIds } = this.props.timeLineInfo
+        const {commentToggle,repInfo,getArticleInfo}=this.props
         return (
             <div className="main-container" style={{ overflow: "auto" }}>
-
-                {/* メニュー特有のなにか */}
-                {/* <div style={{ borderBottom: "8px solid rgb(48, 60, 67)", height: "auto", padding: "10px" }} className="post-screen">
-            
-                    <div style={{ float: "left" }} aria-label="ユーザアイコン">
-                        <div style={{ margin: "5px" }}>
-                            <a className="" href="" aria-label="ユーザアイコン">
-                                <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} className="" src={this.props.iconUrl} alt="ユーザアイコン" />
-                            </a>
-                        </div>
-                    </div>
-                    <div onFocus={(e) => this.props.inputPostText(e.target.innerText)} onBlur={(e) => this.props.inputPostText(e.target.innerText)} className="text-area" contentEditable="true" >{this.props.text}</div>
-                    <div style={{ padding: "5px 0" }} aria-label="投稿した写真を表示">
-                                        
-                                        <img src={this.props.imageUrl} />
-                                        
-                                    </div>
-                    <div style={{ display: "flex", marginTop: "15px", marginBottom: "5px" }}>
-                        <div style={{ display: "flex", marginLeft: "auto" }}>
-                            <input type="file" name="photo" accesst="image/jpeg,image/png" onChange={(e) => this.handleChangeFile(e)} /> <a style={{ margin: "0 5px" }} className="icon-link simple-icon" href="" aria-label="写真追加">
-                                <img className="image-icon" src={pic} alt="写真追加アイコン" />
-                            </a>
-                            <a onClick={() => {
-
-                                this.props.post(this.props.requestData, this.props.accessToken)
-                                this.props.clearTextBox()
-                            }} style={{ margin: "0 5px", }} className="btn btn--orange btn--radius" aria-label="投稿ボタン">投稿</a>
-                        </div>
-                    </div>
-
-                </div> */}
-
                 {/* みんなの投稿 */}
                 <div style={{ width: "100%", display: "inline-flex", borderBottom: "5px solid rgb(48, 60, 67)" }} >
                     {/* <!-- ユーザ情報 --> */}
                     <div style={{ margin: "5px" }}>
-                        <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} className="" src={this.props.iconUrl} alt="ユーザアイコン" />
+                        <img style={{ width: "50px", height: "50px", borderRadius: "50%" ,objectFit:"cover",objectPosition: "20% 45%"}} className="" src={this.props.iconUrl} alt="ユーザアイコン" />
                     </div>
                     {/* <!-- 投稿内容 --> */}
                     <div style={{ display: "block", width: "inherit" }}>
-                        <div onFocus={(e) => this.props.inputPostText(e.target.innerText)} onBlur={(e) => this.props.inputPostText(e.target.innerText)} className="text-area" style={{ padding: "10px", fontSize: "20px", margin: "10px 20px 0 20px", width: "440px" }} contentEditable="true" >{this.props.text}</div>
+                        <div id="post-text" onFocus={(e) => this.props.inputPostText(e.target.innerText)} onBlur={(e) => this.props.inputPostText(e.target.innerText)} className="text-area" style={{ padding: "10px", fontSize: "20px", margin: "10px 20px 0 20px", width: "440px" }} contentEditable="true" ></div>
                         {(() => {
                             if (this.props.imageUrl != undefined) {
                                 return (
                                     <div style={{ position: "relative", margin: "5px 15px 0 0", padding: "10px", textAlign: "center", borderRadius: "20px" }} aria-label="投稿した写真を表示">
-                                        <img src={this.props.imageUrl} style={{width:"90%",borderRadius:"20px",height:"250px",objectFit:"cover"}}/>
-                                        <img className="pointer" onClick={()=>this.props.imageClear()} src={batsu} style={{ backgroundColor: "black", borderRadius: "100%", top: "5px", left: "10px", position: "absolute", width: "20px" }} />
+                                        <img src={this.props.imageUrl} style={{ width: "90%", borderRadius: "20px", height: "250px", objectFit: "cover" }} />
+                                        <img className="pointer" onClick={() => this.props.imageClear()} src={batsu} style={{ backgroundColor: "black", borderRadius: "100%", top: "5px", left: "10px", position: "absolute", width: "20px" }} />
                                     </div>
                                 )
                             }
@@ -110,7 +74,7 @@ class Home extends React.Component {
                                     <img className="image-icon" src={pic} alt="写真追加アイコン" />
                                 </a> */}
                                 <a onClick={() => {
-
+                                    document.querySelector('#post-text').innerText=''
                                     this.props.post(this.props.requestData, this.props.accessToken)
                                     this.props.clearTextBox()
                                 }} style={{ margin: "0 5px", }} className="btn btn--orange btn--radius" aria-label="投稿ボタン">投稿</a>
@@ -120,66 +84,13 @@ class Home extends React.Component {
 
                 </div>
                 <div>
-                    <OtherPost {...PostedUserInfo} />
-                    <OtherPost {...PostedUserInfo} />
-                    <OtherPost {...PostedUserInfo} />
+                    {articles.map(article => (<UserPost article={article} member={memberIds[article.member_id]} />))}
+
                 </div>
             </div >
         )
     }
 
-}
-const OtherPost = (props) => {
-
-    return (
-        <div style={{ padding: "10px 15px", borderBottom: "1px solid rgb(48, 60, 67)", display: "inline-flex", height: "auto", width: "560px" }} className="post-screen">
-            <React.Fragment>
-                {/* ブロック1 */}
-                <div style={{ marginRight: "10px" }} aria-label="ユーザアイコン">
-                    <div style={{ margin: "5px" }}>
-                        <a className="" href="" aria-label="ユーザアイコン">
-                            <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} className="" src={userImageUrl} alt="ユーザアイコン" />
-                        </a>
-                    </div>
-                </div>
-                {/* ブロック2 */}
-                <div style={{ display: "block" }}>
-
-                    {/* <!-- ユーザ名 --> */}
-                    <div>
-                        <div style={{ float: "left", marginLeft: "5px" }}>
-                            <a style={{ textDecoration: "none", color: "white", fontWeight: "bold" }} href="">{props.userName}</a>
-                        </div>
-                        <div style={{ float: "left", margin: "0 15px" }}>
-                            <a style={{ textDecoration: "none", color: " rgb(115, 129, 136)" }} href="">@{props.userId}</a>
-                        </div>
-                        <div style={{ color: "rgb(115, 129, 136)", marginLeft: "15px" }}>{props.createdAt}</div>
-                    </div>
-                    {/* <!-- 投稿内容 --> */}
-                    <div>
-
-                        <div className="font" style={{ padding: "5px 0", paddingRight: "50px" }} aria-label="投稿した文字を表示">投稿文字ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</div>
-                        {(() => {
-                            // 写真があれば表示
-                            if (1) {
-                                return (
-                                    <div style={{ padding: "5px 0" }} aria-label="投稿した写真を表示">
-                                        <a href="" >
-                                            <img src={userImageUrl} alt="投稿した写真を表示" style={{ width: "90%", borderRadius: "5%" }} />
-                                        </a>
-                                    </div>
-                                )
-                            }
-                        })()}
-
-
-                    </div>
-
-                </div>
-            </React.Fragment>
-        </div>
-
-    )
 }
 
 export default Home

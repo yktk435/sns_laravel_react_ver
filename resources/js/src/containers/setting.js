@@ -1,7 +1,7 @@
 // src/containers/Ranking.js
 import { connect } from 'react-redux';
 import Setting from '../components/centerarea/setting/setting'
-import * as actions from '../actions/fetch'
+
 import * as setting from '../actions/setting'
 
 const mapStateToProps = (state, ownProps) => {
@@ -15,6 +15,7 @@ const mapStateToProps = (state, ownProps) => {
       style: state.setting.style,
       menuMode:state.setting.menuMode,
       error: false,
+      member:state.userInfo.user.member
     }
   )
 };

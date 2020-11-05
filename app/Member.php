@@ -33,4 +33,10 @@ class Member extends Model
     function photos(){
         return $this->hasMany('App\Photo');
     }
+    function fromMessages(){
+        return $this->hasMany('App\Message','from_id');
+    }
+    function toMessages(){
+        return $this->hasMany('App\Message','to_id');
+    }
 }

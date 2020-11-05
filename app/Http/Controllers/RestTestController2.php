@@ -12,7 +12,8 @@ use App\Token;
 use App\Friend;
 use App\Comment;
 use App\Http\Controllers\RestCommentController;
-use App\Http\Controllers\RestGootController;
+use App\Http\Controllers\RestMessageController;
+use App\Message;
 
 use App\Good;
 class RestTestController2 extends Controller
@@ -24,13 +25,51 @@ class RestTestController2 extends Controller
      */
     public function index(Request $request)
     {
-        $memberId=1;
-        // dd(RestGootController::getGoodArticlesAndMembers($memberId));
-        // dd(Article::find(10)->belongsTomember->toArray());
-        $article=Article::find(1)->toArray();
-        $article['postImageUrl']='sss';
-        dd($article);
         
+        $memberId=1;
+
+        $r=Message::where('from_id',$memberId)->orWhere('to_id',$memberId);
+        // ユーザごとにグルーピング
+        $r=$r->get()->groupBy('to_id')->toArray();
+        
+        foreach ($r[$memberId] as $key => $rr) {
+            $r[$rr['from_id']][]=$rr;
+        }
+        unset($r[$memberId]);
+        $r=array_values($r);
+        
+        foreach ($r as $key => $rr) {
+            foreach ($rr as $key2 => $rrr) {
+                $id[$key][]=$rrr['id'];
+            }
+        }
+        foreach ($r as $key => &$rr) {
+            array_multisort($id[$key],SORT_DESC,$rr); 
+            $rr=array_reverse($rr);
+            $sort[$rr[count($rr)-1]['id']]=$rr;
+        }
+        
+        
+        krsort($sort);
+        
+        $sort=array_values($sort);
+        dd($sort);
+
+        $r=Message::where('from_id',$memberId)->orWhere('to_id',$memberId);
+        $from=$r->get()->map(function($item){return $item['from_id'];});
+        $to=$r->get()->map(function($item){return $item['to_id'];});
+        $memberIds=array_merge($from->toArray(),$to->toArray());
+        $memberIds=array_unique($memberIds);
+        
+        unset($memberIds[array_search($memberId,$memberIds)]);
+        $memberIds=array_values($memberIds);
+        $members=Member::whereIn('id',$memberIds)->get()->toArray();
+        // dd($members);
+
+        return [
+            'messages'=>$sort,
+            'members'=>$members
+        ];
     }
     static function sa($memberId){
         

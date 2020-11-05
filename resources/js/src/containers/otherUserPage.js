@@ -1,7 +1,7 @@
 // src/containers/Ranking.js
 import { connect } from 'react-redux';
 import OtherUserPage from '../components/centerarea/profile/otherUserPage'
-import * as actions from '../actions/fetch'
+import * as fetch from '../actions/fetch'
 import * as profile from '../actions/profile'
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,20 +14,29 @@ const mapStateToProps = (state, ownProps) => {
             accessToken: state.userInfo.otherUser.accessToken,
             style: state.profile.style,
             // 投稿、返信、写真、グッドのどれを見ているか
-            menuMode:state.profile.menuMode,
+            menuMode: state.profile.menuMode,
             // 投稿
             postObj: state.userInfo.otherUser.postObj,
             // 返信
             // 写真
-            picObj:state.profile.picObj,
+            picObj: state.profile.picObj,
             // ぐっと
-            goodObj:state.profile.goodObj,
+            goodObj: state.profile.goodObj,
         }
     )
 };
 const mapDispatchToProps = dispatch => ({
     clickMenuItem(e) {
         dispatch(profile.clickMenuItem(e))
+    },
+    getArticles(userId) {
+        dispatch(fetch.getArticles(userId))
+    },
+    getFriends(userId) {
+        dispatch(fetch.getFriends(userId))
+    },
+    getOtherUserInfo(userId) {
+        dispatch(fetch.getOtherUserInfo(userId))
     }
 })
 

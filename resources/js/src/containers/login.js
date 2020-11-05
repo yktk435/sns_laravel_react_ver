@@ -11,8 +11,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    inputUserName(userId) {
-        dispatch(actions.inputUserName(userId))
+    inputUserId(userId) {
+        dispatch(actions.inputUserId(userId))
     },
     inputPass(pass) {
         dispatch(actions.inputPass(pass))

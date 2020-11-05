@@ -144,9 +144,22 @@ class RestMemberController extends Controller
      */
     public function edit(Request $request, $userId)
     {
+
+        $data = $request->all();
+        $memberId = $data['member_id'];
         // $userId=$request->all()['userId'];
         // $userId='keanu';
-        if ($userId == 'CHANGE_USERNAME') {
+        if ($userId == 'profilechange') {
+            $env = "http://localhost:8000/";
+            $files = $request->file();
+
+            foreach ($files as $file) {
+                // $file->store('images/memberId_'.$memberId);
+                $hashName = $file->hashName();
+                $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
+                // $url= Storage::disk('local')->path('images/memberId_'.$memberId.'/'.$file->hashName());
+                $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
+            }
         } else {
             $member = Member::where('user_id', $userId)->first();
 
@@ -169,7 +182,7 @@ class RestMemberController extends Controller
                 'member' => $member,
                 "goodArticleIds" => RestGootController::getGoodArticlesAndMembers($member['id']),
                 "commentArticleIds" => RestCommentController::getCommentArticleIdsAndMembers($member['id']),
-                "photoArticleIds"=>RestPhotoController::getPhotoArticleIds($member['id'])
+                "photoArticleIds" => RestPhotoController::getPhotoArticleIds($member['id'])
             ];
         }
     }
@@ -183,27 +196,46 @@ class RestMemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // return $request;
-        $data = $request->toArray();
+
+        $data = $request->all();
+        // return $data;
 
         $input = $data['input'];
 
-        $memberid = $data['member_id'];
+        $memberId = $data['member_id'];
 
 
 
         switch ($id) {
             case 'userid':
-                DB::table('members')->where('id', $memberid)->update(['user_id' => $input]);
+                DB::table('members')->where('id', $memberId)->update(['user_id' => $input]);
                 break;
             case 'pass':
-                DB::table('members')->where('id', $memberid)->update(['password' => $input]);
+                DB::table('members')->where('id', $memberId)->update(['password' => $input]);
                 break;
             case 'mail':
-                DB::table('members')->where('id', $memberid)->update(['email' => $input]);
+                DB::table('members')->where('id', $memberId)->update(['email' => $input]);
                 break;
             case 'username':
-                DB::table('members')->where('id', $memberid)->update(['name' => $input]);
+                DB::table('members')->where('id', $memberId)->update(['name' => $input]);
+                break;
+            case 'profilechange':
+                $memberId = $request->all()['member_id'];
+                $name = $input == ''
+                    ? Member::find($memberId)->toArray()['name']
+                    : $input;
+                $icon = $request->file('icon')
+                    ? $this->filetoUrl($request->file('icon'), $memberId)
+                    : Member::find($memberId)->toArray()['icon'];
+                $header = $request->file('header')
+                    ? $this->filetoUrl($request->file('header'), $memberId)
+                    : Member::find($memberId)->toArray()['header'];
+                DB::table('members')->where('id', $memberId)->update([
+                    'name' => $name,
+                    'icon' => $icon,
+                    'header' => $header,
+                ]);
+                return Member::find($memberId)->toArray();
                 break;
 
             default:
@@ -211,8 +243,8 @@ class RestMemberController extends Controller
                 break;
         }
 
-        $accessToken = Token::where('member_id', $memberid)->first();
-        $memberTable = Member::find($memberid);
+        $accessToken = Token::where('member_id', $memberId)->first();
+        $memberTable = Member::find($memberId);
 
         $array = [
             "userName" => $memberTable['name'],
@@ -225,6 +257,14 @@ class RestMemberController extends Controller
         return $array;
     }
 
+    static function filetoUrl($file, $memberId)
+    {
+        $env = "http://localhost:8000/";
+        $hashName = $file->hashName();
+        $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
+        $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
+        return $url;
+    }
     /**
      * Remove the specified resource from storage.
      *

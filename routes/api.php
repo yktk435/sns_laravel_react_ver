@@ -48,3 +48,8 @@ Route::group(['middleware' => ['api']], function () {
 Route::group(['middleware' => ['api']], function () {
     Route::resource('/good', 'RestGootController')->middleware(LoginCheckMiddleware::class);
 });
+
+Route::group(['middleware' => ['api']], function () {
+    Route::resource('/message', 'RestMessageController')->middleware(LoginCheckMiddleware::class);
+});
+
