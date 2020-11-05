@@ -50,7 +50,7 @@ class RestCommentController extends Controller
         /**********************************************/
         // articlesテーブルへレコード追加
         /**********************************************/
-        $env = "http://localhost:8000/";
+        $env = "//localhost:8000/";
 
         $member = Member::find($memberId);
         $userInfo = $member->toArray();

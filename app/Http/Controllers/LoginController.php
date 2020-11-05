@@ -51,7 +51,7 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        $env = "http://localhost:8000/images/";
+        $env = "//localhost:8000/images/";
         $data = $request->all();
         $userId = $data['userId'];
         $pass = $data['pass'];

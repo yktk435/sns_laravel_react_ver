@@ -87,7 +87,7 @@ class RestMessageController extends Controller
         $memberId=$data['member_id'];
         $message=$data['text'];
         $targetMemberId=$data['targetId'];
-        $env = "http://localhost:8000/";
+        $env = "//localhost:8000/";
         
         $member = Member::find($memberId);        
 

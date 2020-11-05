@@ -100,8 +100,8 @@ class RestMemberController extends Controller
                 'user_id' => $userId,
                 'password' => $pass,
                 'email' => $mail,
-                'icon' => 'http://localhost:8000/images/profile.png',
-                'header' => 'http://localhost:8000/images/user_header.jpg'
+                'icon' => '//localhost:8000/images/profile.png',
+                'header' => '//localhost:8000/images/user_header.jpg'
             ];
             DB::table('members')->insert($param);
 
@@ -114,8 +114,8 @@ class RestMemberController extends Controller
             $array = [
                 "userName" => $userName,
                 "userId" => $userId,
-                "iconUrl" => 'http://localhost:8000/images/profile.png',
-                "headerUrl" => 'http://localhost:8000/images/user_header.jpg',
+                "iconUrl" => '//localhost:8000/images/profile.png',
+                "headerUrl" => '//localhost:8000/images/user_header.jpg',
                 "accessToken" => $accessToken,
                 "mail" => $mail,
             ];
@@ -150,7 +150,7 @@ class RestMemberController extends Controller
         // $userId=$request->all()['userId'];
         // $userId='keanu';
         if ($userId == 'profilechange') {
-            $env = "http://localhost:8000/";
+            $env = "//localhost:8000/";
             $files = $request->file();
 
             foreach ($files as $file) {
@@ -259,7 +259,7 @@ class RestMemberController extends Controller
 
     static function filetoUrl($file, $memberId)
     {
-        $env = "http://localhost:8000/";
+        $env = "//localhost:8000/";
         $hashName = $file->hashName();
         $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
         $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;

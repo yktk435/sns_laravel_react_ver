@@ -20,7 +20,7 @@ export const getUserInfoInPrrofile = (userId) => {
     }
     // ログインしていなければloginにリダイレクトの処理を書く
     try {
-      const responce = await fetch('http://localhost:8000/api/member/' + userId + '/edit', option);
+      const responce = await fetch('//localhost:8000/api/member/' + userId + '/edit', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -55,7 +55,7 @@ export const getTimeLine = () => {
       },
     }
     try {
-      const responce = await fetch('http://localhost:8000/api/article/show/edit', option)
+      const responce = await fetch('//localhost:8000/api/article/show/edit', option)
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -88,7 +88,7 @@ export const getFriends = (userId) => {
     }
 
     try {
-      const responce = await fetch('http://localhost:8000/api/friend?userId=' + userId, option)
+      const responce = await fetch('//localhost:8000/api/friend?userId=' + userId, option)
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -119,7 +119,7 @@ export const getMyFriends = (userId) => {
     }
 
     try {
-      const responce = await fetch('http://localhost:8000/api/friend?userId=' + userId, option)
+      const responce = await fetch('//localhost:8000/api/friend?userId=' + userId, option)
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -158,7 +158,7 @@ export const followOr = (e, memberId) => {
     }
 
     try {
-      const responce = await fetch('http://localhost:8000/api/friend/' + e, option)
+      const responce = await fetch('//localhost:8000/api/friend/' + e, option)
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -171,7 +171,7 @@ export const followOr = (e, memberId) => {
         },
       }
 
-      // const responce2 = await fetch('http://localhost:8000/api/friend?userId=', option2)
+      // const responce2 = await fetch('//localhost:8000/api/friend?userId=', option2)
 
       // const data2 = await responce2.json();
 
@@ -291,7 +291,7 @@ export const search = (keyword) => {
     });
     // dispatch(startRequest(category)); // categoryIdからcategoryに変更
     try {
-      const responce = await fetch('http://localhost:8000/api/member?keyword=' + encodeURI(keyword), option)
+      const responce = await fetch('//localhost:8000/api/member?keyword=' + encodeURI(keyword), option)
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -319,7 +319,7 @@ export const saveChanges = (postData, token) => {
     }
     // dispatch(startRequest(category)); // categoryIdからcategoryに変更
     try {
-      const responce = await fetch('http://localhost:8000/api/member/' + postData.id, option);
+      const responce = await fetch('//localhost:8000/api/member/' + postData.id, option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -345,7 +345,7 @@ export const pushCreateAccountButton = (data) => {
       body: JSON.stringify(data)
     }
     try {
-      const responce = await fetch('http://localhost:8000/api/member', option);
+      const responce = await fetch('//localhost:8000/api/member', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -384,7 +384,7 @@ export const post = (requestData) => {
     }
     // dispatch(startRequest(category)); // categoryIdからcategoryに変更
     try {
-      const responce = await fetch('http://localhost:8000/api/article', option);
+      const responce = await fetch('//localhost:8000/api/article', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -423,7 +423,7 @@ export const postRep = (repArticleId, content) => {
       body: formData
     }
     try {
-      const response = await fetch('http://localhost:8000/api/comment', option);
+      const response = await fetch('//localhost:8000/api/comment', option);
       const data = await response.json();
 
       if ('error' in data) throw data
@@ -445,7 +445,7 @@ export const getArticles = (userId) => {
       },
     }
     try {
-      const responce = await fetch('http://localhost:8000/api/article?userId=' + userId, option);
+      const responce = await fetch('//localhost:8000/api/article?userId=' + userId, option);
       const data = await responce.json();
       if ('error' in data) throw data
       dispatch(receiveArticles(data, null));
@@ -474,7 +474,7 @@ export const startLogin = (ipassData) => {
     // ログインしていなければloginにリダイレクトの処理を書く
     try {
 
-      const responce = await fetch('http://localhost:8000/api/login', option);
+      const responce = await fetch('//localhost:8000/api/login', option);
       const data = await responce.json();
 
 
@@ -505,7 +505,7 @@ export const startLoginWithToken = () => {
     // ログインしていなければloginにリダイレクトの処理を書く
     try {
 
-      const responce = await fetch('http://localhost:8000/api/login', option);
+      const responce = await fetch('//localhost:8000/api/login', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -557,7 +557,7 @@ export const getOtherUserInfo = (userId) => {
     }
     // ログインしていなければloginにリダイレクトの処理を書く
     try {
-      const responce = await fetch('http://localhost:8000/api/member/get_other_user/edit', option);
+      const responce = await fetch('//localhost:8000/api/member/get_other_user/edit', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -597,7 +597,7 @@ export const getArticleInfo = (articleId) => {
     }
     // ログインしていなければloginにリダイレクトの処理を書く
     try {
-      const responce = await fetch('http://localhost:8000/api/article/' + articleId, option);
+      const responce = await fetch('//localhost:8000/api/article/' + articleId, option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -656,7 +656,7 @@ export const goodToggle = (articleId) => {
     }
     // ログインしていなければloginにリダイレクトの処理を書く
     try {
-      const responce = await fetch('http://localhost:8000/api/good/' + articleId + '/edit', option);
+      const responce = await fetch('//localhost:8000/api/good/' + articleId + '/edit', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -685,7 +685,7 @@ export const getDm = () => {
     }
     // ログインしていなければloginにリダイレクトの処理を書く
     try {
-      const responce = await fetch('http://localhost:8000/api/message', option);
+      const responce = await fetch('//localhost:8000/api/message', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -727,7 +727,7 @@ export const postDm = (data) => {
     }
     // dispatch(startRequest(category)); // categoryIdからcategoryに変更
     try {
-      const responce = await fetch('http://localhost:8000/api/message', option);
+      const responce = await fetch('//localhost:8000/api/message', option);
       const data = await responce.json();
 
       if ('error' in data) throw data
@@ -770,7 +770,7 @@ export const profileChange = (data) => {
     }
     // dispatch(startRequest(category)); // categoryIdからcategoryに変更
     try {
-      const responce = await fetch('http://localhost:8000/api/member/profilechange/', option);
+      const responce = await fetch('//localhost:8000/api/member/profilechange/', option);
       const data = await responce.json();
 
       if ('error' in data) throw data

@@ -16,7 +16,7 @@ class RestTestController extends Controller
      */
     public function index(Request $request)
     {
-        $env = "http://localhost:8000/images/";
+        $env = "//localhost:8000/images/";
         $postOvj = [
             [
                 "userName" => "ポスト",

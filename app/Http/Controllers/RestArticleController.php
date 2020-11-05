@@ -72,7 +72,7 @@ class RestArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $env = "http://localhost:8000/";
+        $env = "//localhost:8000/";
         $memberId = $request['member_id'];
         $member = Member::find($memberId);
         $userInfo = $member->toArray();
