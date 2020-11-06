@@ -76978,10 +76978,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var URL = 'localhost:8000'; // const URL='www.yktk435.live-on.net'
 // src/actions/Ranking.js
 
 
+var URL = '//localhost:8000'; // const URL='www.yktk435.live-on.net'
 
 /**********************************************/
 // プロフィールでのユーザ情報取得
@@ -77016,7 +77016,7 @@ var getUserInfoInPrrofile = function getUserInfoInPrrofile(userId) {
 
               _context.prev = 1;
               _context.next = 4;
-              return fetch('//' + URL + '/api/member/' + userId + '/edit', option);
+              return fetch(URL + '/api/member/' + userId + '/edit', option);
 
             case 4:
               responce = _context.sent;
@@ -77089,7 +77089,7 @@ var getTimeLine = function getTimeLine() {
               };
               _context2.prev = 1;
               _context2.next = 4;
-              return fetch('//' + URL + '/api/article/show/edit', option);
+              return fetch(URL + '/api/article/show/edit', option);
 
             case 4:
               responce = _context2.sent;
@@ -77161,7 +77161,7 @@ var getFriends = function getFriends(userId) {
               };
               _context3.prev = 1;
               _context3.next = 4;
-              return fetch('//' + URL + '/api/friend?userId=' + userId, option);
+              return fetch(URL + '/api/friend?userId=' + userId, option);
 
             case 4:
               responce = _context3.sent;
@@ -77229,7 +77229,7 @@ var getMyFriends = function getMyFriends(userId) {
               };
               _context4.prev = 1;
               _context4.next = 4;
-              return fetch('//' + URL + '/api/friend?userId=' + userId, option);
+              return fetch(URL + '/api/friend?userId=' + userId, option);
 
             case 4:
               responce = _context4.sent;
@@ -77310,7 +77310,7 @@ var followOr = function followOr(e, memberId) {
               };
               _context5.prev = 1;
               _context5.next = 4;
-              return fetch('//' + URL + '/api/friend/' + e, option);
+              return fetch(URL + '/api/friend/' + e, option);
 
             case 4:
               responce = _context5.sent;
@@ -77334,7 +77334,7 @@ var followOr = function followOr(e, memberId) {
                 headers: {
                   'access_token': getAccesstoken()
                 }
-              }; // const responce2 = await fetch('//'+URL+'/api/friend?userId=', option2)
+              }; // const responce2 = await fetch(URL+'/api/friend?userId=', option2)
               // const data2 = await responce2.json();
               // if ('error' in data2) throw data2
               // dispatch(receiveFriendsData(data2, null));
@@ -77508,7 +77508,7 @@ var search = function search(keyword) {
 
               _context6.prev = 2;
               _context6.next = 5;
-              return fetch('//' + URL + '/api/member?keyword=' + encodeURI(keyword), option);
+              return fetch(URL + '/api/member?keyword=' + encodeURI(keyword), option);
 
             case 5:
               responce = _context6.sent;
@@ -77575,7 +77575,7 @@ var saveChanges = function saveChanges(postData, token) {
 
               _context7.prev = 1;
               _context7.next = 4;
-              return fetch('//' + URL + '/api/member/' + postData.id, option);
+              return fetch(URL + '/api/member/' + postData.id, option);
 
             case 4:
               responce = _context7.sent;
@@ -77640,7 +77640,7 @@ var pushCreateAccountButton = function pushCreateAccountButton(data) {
               };
               _context8.prev = 1;
               _context8.next = 4;
-              return fetch('//' + URL + '/api/member', option);
+              return fetch(URL + '/api/member', option);
 
             case 4:
               responce = _context8.sent;
@@ -77717,7 +77717,7 @@ var post = function post(requestData) {
 
               _context9.prev = 6;
               _context9.next = 9;
-              return fetch('//' + URL + '/api/article', option);
+              return fetch(URL + '/api/article', option);
 
             case 9:
               responce = _context9.sent;
@@ -77797,7 +77797,7 @@ var postRep = function postRep(repArticleId, content) {
               };
               _context10.prev = 7;
               _context10.next = 10;
-              return fetch('//' + URL + '/api/comment', option);
+              return fetch(URL + '/api/comment', option);
 
             case 10:
               response = _context10.sent;
@@ -77854,7 +77854,7 @@ var getArticles = function getArticles(userId) {
               };
               _context11.prev = 1;
               _context11.next = 4;
-              return fetch('//' + URL + '/api/article?userId=' + userId, option);
+              return fetch(URL + '/api/article?userId=' + userId, option);
 
             case 4:
               responce = _context11.sent;
@@ -77918,7 +77918,7 @@ var startLogin = function startLogin(ipassData) {
 
               _context12.prev = 1;
               _context12.next = 4;
-              return fetch('//' + URL + '/api/login', option);
+              return fetch(URL + '/api/login', option);
 
             case 4:
               responce = _context12.sent;
@@ -77980,7 +77980,7 @@ var startLoginWithToken = function startLoginWithToken() {
 
               _context13.prev = 1;
               _context13.next = 4;
-              return fetch('//' + URL + '/api/login', option);
+              return fetch(URL + '/api/login', option);
 
             case 4:
               responce = _context13.sent;
@@ -78072,7 +78072,7 @@ var getOtherUserInfo = function getOtherUserInfo(userId) {
 
               _context14.prev = 1;
               _context14.next = 4;
-              return fetch('//' + URL + '/api/member/get_other_user/edit', option);
+              return fetch(URL + '/api/member/get_other_user/edit', option);
 
             case 4:
               responce = _context14.sent;
@@ -78153,7 +78153,7 @@ var getArticleInfo = function getArticleInfo(articleId) {
 
               _context15.prev = 1;
               _context15.next = 4;
-              return fetch('//' + URL + '/api/article/' + articleId, option);
+              return fetch(URL + '/api/article/' + articleId, option);
 
             case 4:
               responce = _context15.sent;
@@ -78257,7 +78257,7 @@ var goodToggle = function goodToggle(articleId) {
 
               _context16.prev = 1;
               _context16.next = 4;
-              return fetch('//' + URL + '/api/good/' + articleId + '/edit', option);
+              return fetch(URL + '/api/good/' + articleId + '/edit', option);
 
             case 4:
               responce = _context16.sent;
@@ -78329,7 +78329,7 @@ var getDm = function getDm() {
 
               _context17.prev = 1;
               _context17.next = 4;
-              return fetch('//' + URL + '/api/message', option);
+              return fetch(URL + '/api/message', option);
 
             case 4:
               responce = _context17.sent;
@@ -78406,7 +78406,7 @@ var postDm = function postDm(data) {
 
               _context18.prev = 6;
               _context18.next = 9;
-              return fetch('//' + URL + '/api/message', option);
+              return fetch(URL + '/api/message', option);
 
             case 9:
               responce = _context18.sent;
@@ -78486,7 +78486,7 @@ var profileChange = function profileChange(data) {
 
               _context19.prev = 7;
               _context19.next = 10;
-              return fetch('//' + URL + '/api/member/profilechange/', option);
+              return fetch(URL + '/api/member/profilechange/', option);
 
             case 10:
               responce = _context19.sent;
@@ -85718,7 +85718,7 @@ var changeTimeLineData = function changeTimeLineData(timeLineInfo) {};
         errorMessage: action.payload.error
       }) : _objectSpread(_objectSpread({}, state), {}, {
         timeLineInfo: {
-          articles: [action.payload.responce.articles].concat(state.timeLineInfo.articles),
+          articles: [action.payload.responce.articles[0]].concat(state.timeLineInfo.articles),
           memberIds: state.timeLineInfo.memberIds
         }
       });
@@ -86056,7 +86056,7 @@ var initialState = {
       });
 
     case 'RECEIVE_POST_DATA':
-      if (state.userInfo.member.id == action.payload.responce.member.id) {
+      if (state.userInfo.member.id != undefined && state.userInfo.member.id == action.payload.responce.member.id) {
         return action.payload.error ? _objectSpread(_objectSpread({}, state), {}, {
           error: true,
           errorMessage: action.payload.error
