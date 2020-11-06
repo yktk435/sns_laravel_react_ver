@@ -13,6 +13,7 @@ const initialState = {
     comments: []
 
 };
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case 'RECEIVE_POST_DATA':

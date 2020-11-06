@@ -3,6 +3,8 @@
 use App\Http\Middleware\LoginCheckMiddleware;
 use App\Http\Middleware\ResponseMiddleware;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,11 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 // Route::resource('test','RestTestController');
+if(config('app.env') === 'production'){
+    // asset()やurl()がhttpsで生成される
+    URL::forceScheme('https');
+}
+
 Route::get('/', function(){
     return view('index');
 });

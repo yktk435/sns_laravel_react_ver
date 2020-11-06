@@ -10,7 +10,7 @@ use App\Comment;
 use App\Photo;
 use Mockery\Undefined;
 use App\Http\Controllers\RestArticleController;
-
+use App\Http\Controllers\LoginController;
 class RestCommentController extends Controller
 {
 
@@ -50,8 +50,6 @@ class RestCommentController extends Controller
         /**********************************************/
         // articlesテーブルへレコード追加
         /**********************************************/
-        $env = "//localhost:8000/";
-
         $member = Member::find($memberId);
         $userInfo = $member->toArray();
         $nextId = DB::table('articles')->max('id') + 1;
@@ -63,7 +61,7 @@ class RestCommentController extends Controller
             $hashName = $file->hashName();
             $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
             // $url= Storage::disk('local')->path('images/memberId_'.$memberId.'/'.$file->hashName());
-            $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
+            $url = LoginController::env() . '/memberId_' . $memberId . '/' . $hashName;
         }
 
         $param = [

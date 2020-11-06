@@ -8,6 +8,7 @@ use App\Token;
 use App\Member;
 use App\Article;
 use Illuminate\Support\Str;
+use App\Http\Controllers\LoginController;
 
 class RestMemberController extends Controller
 {
@@ -100,8 +101,8 @@ class RestMemberController extends Controller
                 'user_id' => $userId,
                 'password' => $pass,
                 'email' => $mail,
-                'icon' => '//localhost:8000/images/profile.png',
-                'header' => '//localhost:8000/images/user_header.jpg'
+                'icon' => LoginController::env().'/profile.png',
+                'header' => LoginController::env().'/user_header.jpg'
             ];
             DB::table('members')->insert($param);
 
@@ -114,8 +115,8 @@ class RestMemberController extends Controller
             $array = [
                 "userName" => $userName,
                 "userId" => $userId,
-                "iconUrl" => '//localhost:8000/images/profile.png',
-                "headerUrl" => '//localhost:8000/images/user_header.jpg',
+                "iconUrl" => LoginController::env().'/profile.png',
+                "headerUrl" => LoginController::env().'/user_header.jpg',
                 "accessToken" => $accessToken,
                 "mail" => $mail,
             ];
@@ -150,7 +151,7 @@ class RestMemberController extends Controller
         // $userId=$request->all()['userId'];
         // $userId='keanu';
         if ($userId == 'profilechange') {
-            $env = "//localhost:8000/";
+            $env = LoginController::env();
             $files = $request->file();
 
             foreach ($files as $file) {
@@ -158,7 +159,7 @@ class RestMemberController extends Controller
                 $hashName = $file->hashName();
                 $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
                 // $url= Storage::disk('local')->path('images/memberId_'.$memberId.'/'.$file->hashName());
-                $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
+                $url = $env . '/memberId_' . $memberId . '/' . $hashName;
             }
         } else {
             $member = Member::where('user_id', $userId)->first();
@@ -259,10 +260,10 @@ class RestMemberController extends Controller
 
     static function filetoUrl($file, $memberId)
     {
-        $env = "//localhost:8000/";
+        $env = LoginController::env();
         $hashName = $file->hashName();
         $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
-        $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
+        $url = $env . '/memberId_' . $memberId . '/' . $hashName;
         return $url;
     }
     /**

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
-
+use App\Http\Controllers\LoginController;
 class RestTestController extends Controller
 {
     /**
@@ -16,27 +16,27 @@ class RestTestController extends Controller
      */
     public function index(Request $request)
     {
-        $env = "//localhost:8000/images/";
+        $env = LoginController::env();
         $postOvj = [
             [
                 "userName" => "ポスト",
                 "userId" => "postuserId",
-                "iconUrl" => $env . "taro.png",
-                "postImageUrl" => $env . "taro2.jpg",
+                "iconUrl" => $env . "/taro.png",
+                "postImageUrl" => $env . "/taro2.jpg",
                 "content" => "投稿した文字列投稿した文字列投稿した文字列投稿した文字列投稿した文字列"
             ],
             [
                 "userName" => "ポスト",
                 "userId" => "postuserId",
-                "iconUrl" => $env . "taro.png",
-                "postImageUrl" => $env . "taro2.jpg",
+                "iconUrl" => $env . "/taro.png",
+                "postImageUrl" => $env . "/taro2.jpg",
                 "content" => "投稿した文字列投稿した文字列投稿した文字列投稿した文字列投稿した文字列"
             ],
             [
                 "userName" => "ポスト",
                 "userId" => "postuserId",
-                "iconUrl" => $env . "taro.png",
-                "postImageUrl" => $env . "taro2.jpg",
+                "iconUrl" => $env . "/taro.png",
+                "postImageUrl" => $env . "/taro2.jpg",
                 "content" => "投稿した文字列投稿した文字列投稿した文字列投稿した文字列投稿した文字列"
             ],
         ];
@@ -45,8 +45,8 @@ class RestTestController extends Controller
         $data = [
             "userName" => "ユーザ名",
             "userId" => "userId",
-            "iconUrl" => $env . "user.jpg",
-            "headerUrl" => $env . "user_header.jpg",
+            "iconUrl" => $env . "/user.jpg",
+            "headerUrl" => $env . "/user_header.jpg",
             "postObj" => $postOvj,
         ];
         return json_encode($data);

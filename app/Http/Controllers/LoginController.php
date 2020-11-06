@@ -11,6 +11,9 @@ use App\Http\Controllers\RestCommentController;
 use App\Http\Controllers\RestPhotoController;
 class LoginController extends Controller
 {
+    static function env(){
+        return  "//localhost:8000/images";
+    }
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +54,7 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        $env = "//localhost:8000/images/";
+        $env = $this->env();
         $data = $request->all();
         $userId = $data['userId'];
         $pass = $data['pass'];

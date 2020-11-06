@@ -64,7 +64,7 @@ export default (state = initialState, action) => {
                 : {
                     ...state,
                     timeLineInfo: {
-                        articles: [action.payload.responce.articles].concat(state.timeLineInfo.articles),
+                        articles: [action.payload.responce.articles[0]].concat(state.timeLineInfo.articles),
                         memberIds:state.timeLineInfo.memberIds
                     }
                 }

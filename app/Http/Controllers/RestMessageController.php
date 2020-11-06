@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Member;
 use App\Message;
+use App\Http\Controllers\LoginController;
 class RestMessageController extends Controller
 {
     static function getMessages($memberId){
@@ -87,7 +88,7 @@ class RestMessageController extends Controller
         $memberId=$data['member_id'];
         $message=$data['text'];
         $targetMemberId=$data['targetId'];
-        $env = "//localhost:8000/";
+        $env = LoginController::env();
         
         $member = Member::find($memberId);        
 
@@ -98,7 +99,7 @@ class RestMessageController extends Controller
             $hashName = $file->hashName();
             $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
             // $url= Storage::disk('local')->path('images/memberId_'.$memberId.'/'.$file->hashName());
-            $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
+            $url = $env . '/memberId_' . $memberId . '/' . $hashName;
         }
 
         $param=[

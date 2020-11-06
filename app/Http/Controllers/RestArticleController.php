@@ -10,6 +10,7 @@ use App\Member;
 use App\Photo;
 use Mockery\Undefined;
 use App\Http\Controllers\RestGootController;
+use App\Http\Controllers\LoginController;
 class RestArticleController extends Controller
 {
     static function getArticles($memberId){
@@ -72,7 +73,7 @@ class RestArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $env = "//localhost:8000/";
+        $env = LoginController::env();
         $memberId = $request['member_id'];
         $member = Member::find($memberId);
         $userInfo = $member->toArray();
@@ -86,7 +87,7 @@ class RestArticleController extends Controller
             $hashName = $file->hashName();
             $file->move('images/memberId_' . $memberId, $file->hashName(), $hashName);
             // $url= Storage::disk('local')->path('images/memberId_'.$memberId.'/'.$file->hashName());
-            $url = $env . 'images/memberId_' . $memberId . '/' . $hashName;
+            $url = $env . '/memberId_' . $memberId . '/' . $hashName;
         }
 
         $param = [

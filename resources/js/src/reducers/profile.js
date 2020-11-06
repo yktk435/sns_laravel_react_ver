@@ -77,7 +77,7 @@ export default (state = initialState, action) => {
                 }
         case 'RECEIVE_POST_DATA':
 
-            if (state.userInfo.member.id == action.payload.responce.member.id) {
+            if (state.userInfo.member.id!=undefined && state.userInfo.member.id == action.payload.responce.member.id) {
                 return action.payload.error
                     ? {
                         ...state,
