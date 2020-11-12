@@ -82017,7 +82017,7 @@ var Login = function Login(props) {
       color: "rgb(27, 149, 224)",
       padding: "6px"
     }
-  }, "\u30A2\u30AB\u30A6\u30F3\u30C8\u4F5C\u6210")))));
+  }, "\u30A2\u30AB\u30A6\u30F3\u30C8\u4F5C\u6210"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u30C6\u30B9\u30C8\u30E6\u30FC\u30B6ID:keanu"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u30C6\u30B9\u30C8\u30E6\u30FC\u30B6\u30D1\u30B9\u30EF\u30FC\u30C9:123456789"))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Login);

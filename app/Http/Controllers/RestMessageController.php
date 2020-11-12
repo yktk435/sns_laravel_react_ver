@@ -84,6 +84,7 @@ class RestMessageController extends Controller
      */
     public function store(Request $request)
     {
+        
         $data=$request->all();
         $memberId=$data['member_id'];
         $message=$data['text'];
