@@ -79042,7 +79042,8 @@ var DmParts = function DmParts(props) {
     style: {
       width: "50px",
       height: "50px",
-      borderRadius: "50%"
+      borderRadius: "50%",
+      objectFit: "cover"
     },
     className: "",
     src: icon,
@@ -80544,7 +80545,8 @@ var Follower = function Follower(props) {
     style: {
       width: "50px",
       height: "50px",
-      borderRadius: "50%"
+      borderRadius: "50%",
+      objectFit: "cover"
     },
     className: "",
     src: iconUrl,

@@ -80,7 +80,7 @@ const Follower = (props) => {
             <Link to={"/profile/" + userId}><div style={{ marginRight: "10px" }} aria-label="ユーザアイコン">
                 <div style={{ marginRight: "5px" }}>
                     <a className="" href="" aria-label="ユーザアイコン">
-                        <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} className="" src={iconUrl} alt="ユーザアイコン" />
+                        <img style={{ width: "50px", height: "50px", borderRadius: "50%",objectFit:"cover" }} className="" src={iconUrl} alt="ユーザアイコン" />
                     </a>
                 </div>
             </div></Link>

@@ -47,7 +47,7 @@ const DmParts = (props) => {
             <Link style={{textDecoration:"none"}} to={"/profile/"+user_id}><div style={{ marginRight: "10px" }} aria-label="ユーザアイコン">
                 <div style={{ margin: "5px" }}>
                     <a className=""  aria-label="ユーザアイコン">
-                        <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} className="" src={icon} alt="ユーザアイコン" />
+                        <img style={{ width: "50px", height: "50px", borderRadius: "50%",objectFit:"cover" }} className="" src={icon} alt="ユーザアイコン" />
                     </a>
                 </div>
             </div></Link>
