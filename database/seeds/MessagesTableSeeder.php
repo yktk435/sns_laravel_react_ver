@@ -14,16 +14,16 @@ class MessagesTableSeeder extends Seeder
     {
         $param=[
             'created_at'=>now(),
-            'message'=>'1から2へ',
+            'message'=>'山猫はかっこいい',
             'from_id'=>1,
             'to_id'=>2,
-            'image'=>'https://image.rakuten.co.jp/nagashio/cabinet/okb9/4901601455700_1.jpg',
+            'image'=>'https://hunting-laboratory.com/wp-content/uploads/2018/09/lynx-3374228_1920.jpg',
             'read'=>1,
         ];
         DB::table('messages')->insert($param);
         $param=[
             'created_at'=>now(),
-            'message'=>'1から3へ',
+            'message'=>'トムへ',
             'from_id'=>1,
             'to_id'=>3,
             'read'=>1,
@@ -31,16 +31,16 @@ class MessagesTableSeeder extends Seeder
         DB::table('messages')->insert($param);
         $param=[
             'created_at'=>now(),
-            'message'=>'2から1へ',
+            'message'=>'三毛猫飼ってるよ',
             'from_id'=>2,
             'to_id'=>1,
-            'image'=>'https://askul.c.yimg.jp/lpm/img/livingut/293061lh_3L.jpg',
+            'image'=>'https://stat.ameba.jp/user_images/20200708/19/shellchan-mama/79/c9/j/o0607108014786085072.jpg?caw=800',
             'read'=>1,
         ];
         DB::table('messages')->insert($param);
         $param=[
             'created_at'=>now(),
-            'message'=>'4から1へ',
+            'message'=>"マトリックス4がたのしみ",
             'from_id'=>4,
             'to_id'=>1,
             'read'=>1,
@@ -48,7 +48,7 @@ class MessagesTableSeeder extends Seeder
         DB::table('messages')->insert($param);
         $param=[
             'created_at'=>now(),
-            'message'=>'2から1へ',
+            'message'=>'マトリックスは最高だったよ',
             'from_id'=>2,
             'to_id'=>1,
             'read'=>1,
