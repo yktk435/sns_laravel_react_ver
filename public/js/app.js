@@ -79310,6 +79310,7 @@ var Home = /*#__PURE__*/function (_React$Component) {
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "file",
         id: "filesend",
+        "class": "area-home",
         name: "photo",
         accesst: ".jpg,image/jpeg,image/png",
         onChange: function onChange(e) {
@@ -79317,11 +79318,12 @@ var Home = /*#__PURE__*/function (_React$Component) {
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick() {
-          document.querySelector('#post-text').innerText = '';
-
           _this.props.post(_this.props.requestData, _this.props.accessToken);
 
           _this.props.clearTextBox();
+
+          document.querySelector("#filesend.area-home").value = '';
+          document.querySelector('#post-text').innerText = '';
         },
         style: {
           margin: "0 5px"

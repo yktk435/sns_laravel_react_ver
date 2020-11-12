@@ -67,16 +67,17 @@ class Home extends React.Component {
 
                                     </span>
                                     {/* <!-- ▽本来の選択フォームは隠す --> */}
-                                    <input type="file" id="filesend" name="photo" accesst=".jpg,image/jpeg,image/png" onChange={(e) => this.handleChangeFile(e)} />
+                                    <input type="file" id="filesend" class="area-home" name="photo" accesst=".jpg,image/jpeg,image/png" onChange={(e) => this.handleChangeFile(e)} />
                                 </label>
 
                                 {/* <a style={{ margin: "0 5px" }} className="icon-link simple-icon" href="" aria-label="写真追加">
                                     <img className="image-icon" src={pic} alt="写真追加アイコン" />
                                 </a> */}
                                 <a onClick={() => {
-                                    document.querySelector('#post-text').innerText=''
                                     this.props.post(this.props.requestData, this.props.accessToken)
                                     this.props.clearTextBox()
+                                    document.querySelector("#filesend.area-home").value = ''
+                                    document.querySelector('#post-text').innerText=''
                                 }} style={{ margin: "0 5px", }} className="btn btn--orange btn--radius" aria-label="投稿ボタン">投稿</a>
                             </div>
                         </div>
