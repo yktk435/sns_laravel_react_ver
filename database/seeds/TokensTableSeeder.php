@@ -25,5 +25,19 @@ class TokensTableSeeder extends Seeder
             'access_token'=>"zxcvbnmasdfghjkqwertyuio",
         ];
         DB::table('tokens')->insert($param);
+        $param=[
+            // 'id'=>10,
+            "member_id"=>3,
+            'created_at'=>date("Y-m-d H:i:s"),
+            'access_token'=>"qwertyuiopasdfghjkl",
+        ];
+        DB::table('tokens')->insert($param);
+        $param=[
+            // 'id'=>10,
+            "member_id"=>4,
+            'created_at'=>date("Y-m-d H:i:s"),
+            'access_token'=>"zxcvbnmasdfghjkqwertyuio",
+        ];
+        DB::table('tokens')->insert($param);
     }
 }
