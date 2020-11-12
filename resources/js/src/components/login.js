@@ -55,7 +55,7 @@ const Login = (props) => {
                 </div>
                 <div>
                     <div>テストユーザID:keanu</div>
-                    <div>テストユーザパスワード:123456789</div>
+                    <div>テストユーザパスワード:1234</div>
                 </div>
             </div>
         </div>
