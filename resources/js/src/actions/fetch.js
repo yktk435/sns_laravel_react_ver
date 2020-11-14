@@ -17,7 +17,7 @@ export const getUserInfoInPrrofile = (userId) => {
     const option = {
       method: 'get',
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -53,7 +53,7 @@ export const getTimeLine = () => {
     const option = {
       method: 'get',
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -85,7 +85,7 @@ export const getFriends = (userId) => {
     const option = {
       method: 'get',
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -116,7 +116,7 @@ export const getMyFriends = (userId) => {
     const option = {
       method: 'get',
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -154,7 +154,7 @@ export const followOr = (e, memberId) => {
       method: 'put',
       headers: {
         'Content-Type': 'application/json',
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
       body: JSON.stringify({ targetMemberId: memberId })
@@ -170,7 +170,7 @@ export const followOr = (e, memberId) => {
       const option2 = {
         method: 'get',
         headers: {
-          'access_token': getAccesstoken(),
+          'access-token': getAccesstoken(),
         },
       }
 
@@ -284,7 +284,7 @@ export const search = (keyword) => {
     const option = {
       method: 'get',
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -315,7 +315,7 @@ export const saveChanges = (postData, token) => {
       method: 'put',
       headers: {
         'Content-Type': 'application/json',
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
       body: JSON.stringify({ input: postData.input })
@@ -352,8 +352,8 @@ export const pushCreateAccountButton = (data) => {
       const data = await responce.json();
 
       if ('error' in data) throw data
-      // document.cookie = 'access_token=' + data.accessToken
-      localStorage.setItem("access_token", data.accessToken);
+      // document.cookie = 'access-token=' + data.accessToken
+      localStorage.setItem("access-token", data.accessToken);
       dispatch(getUserInfoAction(data, null,));
       dispatch(replace('/home'))
 
@@ -380,7 +380,7 @@ export const post = (requestData) => {
       method: 'post',
       headers: {
         // 'Content-Type': 'application/json',
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
       body: formData
@@ -420,7 +420,7 @@ export const postRep = (repArticleId, content) => {
       method: 'post',
       headers: {
         // 'Content-Type': 'application/json',
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
       body: formData
@@ -443,7 +443,7 @@ export const getArticles = (userId) => {
   return async (dispatch, getState) => {
     const option = {
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -482,7 +482,7 @@ export const startLogin = (ipassData) => {
 
 
       if ('error' in data) throw data
-      localStorage.setItem("access_token", data.accessToken);
+      localStorage.setItem("access-token", data.accessToken);
       dispatch(replace('/home'))
       dispatch(getUserInfoAction(data, null,));
     } catch (err) {
@@ -499,7 +499,7 @@ export const startLoginWithToken = () => {
     const option = {
       method: 'get',
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
 
       },
@@ -512,7 +512,7 @@ export const startLoginWithToken = () => {
       const data = await responce.json();
 
       if ('error' in data) throw data
-      localStorage.setItem("access_token", data.accessToken);
+      localStorage.setItem("access-token", data.accessToken);
       dispatch(getUserInfoAction(data, null,));
 
     } catch (err) {
@@ -526,8 +526,8 @@ export const startLoginWithToken = () => {
 
 export const logout = () => {
   return (dispatch, getState) => {
-    // document.cookie = 'access_token=;'
-    localStorage.removeItem("access_token");
+    // document.cookie = 'access-token=;'
+    localStorage.removeItem("access-token");
     dispatch(logoutAction())
     dispatch(replace('/login'))
   }
@@ -538,7 +538,7 @@ export const logout = () => {
 /*****************************/
 const getAccesstoken = () => {
 
-  return localStorage.getItem('access_token');
+  return localStorage.getItem('access-token');
 
 }
 /*****************************/
@@ -554,7 +554,7 @@ export const getOtherUserInfo = (userId) => {
     const option = {
       method: 'get',
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -594,7 +594,7 @@ export const getArticleInfo = (articleId) => {
   return async (dispatch, getState) => {
     const option = {
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -653,7 +653,7 @@ export const goodToggle = (articleId) => {
   return async (dispatch, getState) => {
     const option = {
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -682,7 +682,7 @@ export const getDm = () => {
   return async (dispatch, getState) => {
     const option = {
       headers: {
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
     }
@@ -723,7 +723,7 @@ export const postDm = (data) => {
       method: 'post',
       headers: {
         // 'Content-Type': 'application/json',
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
       body: formData
@@ -765,7 +765,7 @@ export const profileChange = (data) => {
       method: 'post',
       headers: {
         // 'Content-Type': 'application/json',
-        'access_token': getAccesstoken(),
+        'access-token': getAccesstoken(),
         'X-HTTP-Method-Override': 'PUT'
         // 'X-CSRF-TOKEN': '5xFoCpfLihSVCf6gU8mY0Ko1n0HVYHbclMQFPSXj',
       },
