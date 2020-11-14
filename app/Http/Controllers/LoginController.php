@@ -12,7 +12,8 @@ use App\Http\Controllers\RestPhotoController;
 class LoginController extends Controller
 {
     static function env(){
-        return  "//localhost:8000/images";
+        // return  "//localhost:8000/images";
+        return "//www.yktk435.live-on.net/images";
     }
     /**
      * Display a listing of the resource.
