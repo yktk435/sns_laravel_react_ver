@@ -1,4 +1,5 @@
 # Twitterのコピーサイト
+<img width="1197" style="width:50px" alt="スクリーンショット 2020-11-15 5 10 32" src="https://user-images.githubusercontent.com/43082614/102741350-7b22d300-4395-11eb-86ea-43f8d56454f0.png">
 
 **chrome推奨**
 **画面サイズにより表示が異なりますが、なるべく全画面サイズで御覧ください**
