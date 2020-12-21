@@ -3,6 +3,7 @@
 **chrome推奨**
 ポートフォリオサイトは[こちら](https://www.yktk435.live-on.net)から
 
+## ポートフォリオについて
 Twitterデザインそのままにコピーサイトを作成しました。
 
 Raspberry Pi上で動作させ、公開しています。
