@@ -1,5 +1,18 @@
 # Twitterのコピーサイト
-<img width="1197" style="width:50px" alt="スクリーンショット 2020-11-15 5 10 32" src="https://user-images.githubusercontent.com/43082614/102741350-7b22d300-4395-11eb-86ea-43f8d56454f0.png">
+<div align="center">
+<img width="200" alt="スクリーンショット 2020-11-15 5 10 32" src="https://user-images.githubusercontent.com/43082614/102741582-1b78f780-4396-11eb-90a1-437ad103a8d1.png"> 
+<img width="200" alt="スクリーンショット 2020-11-15 5 10 32" src="https://user-images.githubusercontent.com/43082614/102741591-203dab80-4396-11eb-9356-5b4cbf33ea29.png"> 
+</div>
+<div align="center">
+<img width="200" alt="スクリーンショット 2020-11-15 5 10 32" src="https://user-images.githubusercontent.com/43082614/102741593-216ed880-4396-11eb-9c99-0d73082d0ea9.png"> 
+<img width="200" alt="スクリーンショット 2020-11-15 5 10 32" src="https://user-images.githubusercontent.com/43082614/102741595-22a00580-4396-11eb-8712-90f2a25eb191.png">
+</div>
+
+
+
+
+
+
 
 **chrome推奨**
 **画面サイズにより表示が異なりますが、なるべく全画面サイズで御覧ください**
